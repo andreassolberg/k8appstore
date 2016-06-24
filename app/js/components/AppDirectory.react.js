@@ -1,12 +1,12 @@
 
-var React = require('react');
+import React, {Component} from 'react';
 
-var AppDirectoryItem = require('./AppDirectoryItem.react');
+import AppDirectoryItem from './AppDirectoryItem.react';
+import AppLibraryStore from '../stores/AppLibraryStore';
 
+import CardExampleWithoutAvatar from './CardExampleWithoutAvatar.react';
 // var MessageStore = require('../stores/MessageStore');
 // var ThreadStore = require('../stores/ThreadStore');
-var AppLibraryStore = require('../stores/AppLibraryStore');
-
 
 function getStateFromStores() {
   // console.log("Getting state from stores", AppLibraryStore.getAll());
@@ -25,45 +25,36 @@ function getAppItem(app) {
   );
 }
 
-var AppListing = React.createClass({
+class AppListing extends Component {
+  constructor(props, context) {
+    super(props, context);
 
-  getInitialState: function() {
-    return getStateFromStores();
-  },
+    // this.handleRequestClose = this.handleRequestClose.bind(this);
+    // this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.state = getStateFromStores();
+    this._onChange = this._onChange.bind(this);
+  }
 
-  componentDidMount: function() {
+
+  componentDidMount() {
     this._scrollToBottom();
     AppLibraryStore.addChangeListener(this._onChange);
     // MessageStore.addChangeListener(this._onChange);
     // ThreadStore.addChangeListener(this._onChange);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     AppLibraryStore.removeChangeListener(this._onChange);
     // MessageStore.removeChangeListener(this._onChange);
     // ThreadStore.removeChangeListener(this._onChange);
-  },
+  }
 
-  render: function() {
-    // console.log("Render, state", this.state);
+  render() {
+    console.log("Render, state", this.state);
     var appItems = this.state.applications.map(getAppItem);
-
-    var style = {
-      "columnCount": 2
-    };
 
     return (
       <div>
-        <div className="section" id="index-banner">
-          <div className="container">
-            <div className="row">
-              <div className="col s12">
-                <h1 className="header center-on-small-only">UNINETT k8s AppStore</h1>
-                <h4 className="light red-text text-lighten-4 center-on-small-only">Applications for education and research one click away.</h4>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div className="container">
           <div className="row">
@@ -106,25 +97,25 @@ var AppListing = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     this._scrollToBottom();
-  },
+  }
 
-  _scrollToBottom: function() {
+  _scrollToBottom() {
     // console.log("Scrolling to bottom, when component is mounted.");
     // var ul = this.refs.messageList.getDOMNode();
     // ul.scrollTop = ul.scrollHeight;
-  },
+  }
 
   /**
    * Event handler for 'change' events coming from the MessageStore
    */
-  _onChange: function() {
+  _onChange() {
     this.setState(getStateFromStores());
   }
 
-});
+};
 
 module.exports = AppListing;

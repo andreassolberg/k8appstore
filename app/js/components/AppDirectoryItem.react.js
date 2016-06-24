@@ -1,57 +1,76 @@
-var React = require('react');
-var ReactPropTypes = React.PropTypes;
+import React, {Component} from 'react';
+import {Card, CardTitle, CardActions, CardHeader, CardText, CardMedia} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
-// var AppEngineCreators = require('../actions/AppEngineCreators');
-var AppEngineCreators = require('../actions/AppEngineCreators');
 
-var AppDirectoryItem = React.createClass({
+import AppEngineCreators from '../actions/AppEngineCreators';
 
-  propTypes: {
-    app: ReactPropTypes.object
-  },
 
-  render: function() {
+
+
+
+class AppDirectoryItem extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    // this.handleRequestClose = this.handleRequestClose.bind(this);
+    this._actInstall = this._actInstall.bind(this);
+
+    this.state = null;
+  }
+
+
+  // propTypes: {
+  //   app: ReactPropTypes.object
+  // },
+
+  render() {
+
+
+    const style = {
+      margin: 12,
+    };
+
+    // console.error("Rendering AppDirectoryItem props is", this.props);
     var app = this.props.app;
-
-
     var imageElement = null;
     if (app.thumbnail) {
       imageElement = (
-          <div className="card-image waves-effect waves-block waves-light">
-            <img className="activator" src={app.thumbnail} />
-          </div>
+        <CardMedia
+        overlay={<CardTitle title={app.title} />}
+        >
+          <img src={app.thumbnail} />
+        </CardMedia>
       );
     }
 
     return (
-      <div className="col s4">
-        <div className="card">
+      <Card>
+        <CardHeader
+          title={app.title}
+          subtitle={app.subtitle}
+          actAsExpander={true}
+          showExpandableButton={true}
+        />
+        <CardText expandable={true}>
           {imageElement}
-          <div className="card-content">
-            <span className="card-title activator grey-text text-darken-4">{app.title}<i className="material-icons right">more_vert</i></span>
-            <p>{app.descr}</p>
-            <p className="right-align">{app.price} kr / mnd</p>
-          </div>
-          <div className="card-action">
-            <a href="#" onClick={this._actInstall}>Install</a>
-            <a href="#">Demo</a>
-          </div>
-          <div className="card-reveal">
-            <span className="card-title grey-text text-darken-4">{app.authorName}<i className="material-icons right">close</i></span>
-            <p>{app.descr}</p>
-          </div>
-        </div>
-      </div>
+          <p>{app.descr}</p>
+          <p>Price: {app.price} kr / mnd</p>
+        </CardText>
+        <CardActions expandable={true}>
+          <RaisedButton label="Install" primary={true} style={style} />
+          <FlatButton label="Demo" />
+        </CardActions>
+      </Card>
     );
-  },
+  }
 
-  _actInstall: function(event, value) {
+  _actInstall(event, value) {
     // console.log("_actInstall");
     AppEngineCreators.installApp(this.props.app);
   }
 
-})
+}
 
-;
-
-module.exports = AppDirectoryItem;
+export default AppDirectoryItem;

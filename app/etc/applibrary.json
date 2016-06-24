@@ -2,6 +2,7 @@
 	{
 		"id": "wordpress",
 		"title": "Wordpress blog",
+		"subtitle": "A very popular blog software.",
 		"descr": "A very popular blog software.",
 		"thumbnail": "/css/img/wordpress.png",
 		"price": 79
@@ -9,6 +10,7 @@
 	{
 		"id": "ghost",
 		"title": "Ghost",
+		"subtitle": "A new and modern blog platform.",
 		"descr": "A new and modern blog platform.",
 		"thumbnail": "/css/img/ghost.png",
 		"price": 55
@@ -16,6 +18,7 @@
 	{
 		"id": "etherpad",
 		"title": "Etherpad",
+		"subtitle": "Real time text collaboration.",
 		"descr": "Real time text collaboration.",
 		"thumbnail": "/css/img/etherpad.png",
 		"price": 55
@@ -23,6 +26,7 @@
 	{
 		"id": "flarum",
 		"title": "Flarum",
+		"subtitle": "Modern web forum.",
 		"descr": "Modern web forum.",
 		"thumbnail": "/css/img/flarum.png",
 		"price": 47
@@ -31,6 +35,7 @@
 	{
 		"id": "rocketchat",
 		"title": "Rocket.Chat",
+		"subtitle": "Chat with your team.",
 		"descr": "Chat with your team.",
 		"thumbnail": "/css/img/rocketchat.png",
 		"price": 55
@@ -38,6 +43,7 @@
 	{
 		"id": "jupyter",
 		"title": "Jupyter Notebook",
+		"subtitle": "Notebook for scientist.",
 		"descr": "A very popular blog software.",
 		"thumbnail": "/css/img/jupyter.png",
 		"price": 249
@@ -45,6 +51,7 @@
 	{
 		"id": "wekan",
 		"title": "Wekan Board",
+		"subtitle": "Alternative to Trello.",
 		"descr": "Alternative to Trello.",
 		"thumbnail": "/css/img/wekan.png",
 		"price": 55
@@ -52,6 +59,7 @@
 	{
 		"id": "gitlab",
 		"title": "GitLab",
+		"subtitle": "A source code repository",
 		"descr": "A very popular blog software.",
 		"thumbnail": "/css/img/gitlab.png",
 		"price": 89
@@ -59,6 +67,7 @@
 	{
 		"id": "mattermost",
 		"title": "Mattermost",
+		"subtitle": "Chat with your team.",
 		"descr": "A very popular blog software.",
 		"thumbnail": "/css/img/mattermost.png",
 		"price": 99
@@ -66,6 +75,7 @@
 	{
 		"id": "owncloud",
 		"title": "Owncloud",
+		"subtitle": "File and document sharing.",
 		"descr": "A very popular blog software.",
 		"price": 147
 	},
@@ -74,36 +84,42 @@
 	{
 		"id": "mediawiki",
 		"title": "MediaWiki",
+		"subtitle": "Wiki for collaboration.",
 		"descr": "A very popular blog software.",
 		"price": 34
 	},
 	{
 		"id": "dokuwiki",
 		"title": "DokuWiki",
+		"subtitle": "Wiki for collaboration.",
 		"descr": "A very popular blog software.",
 		"price": 33
 	},
 	{
 		"id": "drupal",
 		"title": "Drupal",
+		"subtitle": "CMS for collaboration.",
 		"descr": "A very popular blog software.",
 		"price": 67
 	},
 	{
 		"id": "convas",
 		"title": "Canvas LMS",
+		"subtitle": "LMS for learning.",
 		"descr": "A very popular blog software.",
 		"price": 128
 	},
 	{
 		"id": "redmine",
 		"title": "RedMine",
+		"subtitle": "Projectrooms for collaboration.",
 		"descr": "A very popular blog software.",
 		"price": 32
 	},
 	{
 		"id": "jitsimeet",
 		"title": "Jitsi Meet",
+		"subtitle": "Videomeetings",
 		"descr": "A very popular blog software.",
 		"price": 199
 	}
