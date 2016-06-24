@@ -1,0 +1,23 @@
+{
+  "name": "my-feideconnect",
+  "version": "0.1.0",
+  "description": "My Feide Connect",
+  "authors": [
+    "Andreas Åkre Solberg"
+  ],
+  "homepage": "http://feideconnect.no",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fontawesome": "~4.4.0",
+    "feideconnectjs": "~2",
+    "es6-promise": "*",
+    "Materialize": "materialize#^0.97.6"
+  }
+}

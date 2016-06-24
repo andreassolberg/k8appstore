@@ -1,0 +1,110 @@
+[
+	{
+		"id": "wordpress",
+		"title": "Wordpress blog",
+		"descr": "A very popular blog software.",
+		"thumbnail": "/css/img/wordpress.png",
+		"price": 79
+	},
+	{
+		"id": "ghost",
+		"title": "Ghost",
+		"descr": "A new and modern blog platform.",
+		"thumbnail": "/css/img/ghost.png",
+		"price": 55
+	},
+	{
+		"id": "etherpad",
+		"title": "Etherpad",
+		"descr": "Real time text collaboration.",
+		"thumbnail": "/css/img/etherpad.png",
+		"price": 55
+	},
+	{
+		"id": "flarum",
+		"title": "Flarum",
+		"descr": "Modern web forum.",
+		"thumbnail": "/css/img/flarum.png",
+		"price": 47
+	},
+
+	{
+		"id": "rocketchat",
+		"title": "Rocket.Chat",
+		"descr": "Chat with your team.",
+		"thumbnail": "/css/img/rocketchat.png",
+		"price": 55
+	},
+	{
+		"id": "jupyter",
+		"title": "Jupyter Notebook",
+		"descr": "A very popular blog software.",
+		"thumbnail": "/css/img/jupyter.png",
+		"price": 249
+	},
+	{
+		"id": "wekan",
+		"title": "Wekan Board",
+		"descr": "Alternative to Trello.",
+		"thumbnail": "/css/img/wekan.png",
+		"price": 55
+	},
+	{
+		"id": "gitlab",
+		"title": "GitLab",
+		"descr": "A very popular blog software.",
+		"thumbnail": "/css/img/gitlab.png",
+		"price": 89
+	},
+	{
+		"id": "mattermost",
+		"title": "Mattermost",
+		"descr": "A very popular blog software.",
+		"thumbnail": "/css/img/mattermost.png",
+		"price": 99
+	},
+	{
+		"id": "owncloud",
+		"title": "Owncloud",
+		"descr": "A very popular blog software.",
+		"price": 147
+	},
+
+
+	{
+		"id": "mediawiki",
+		"title": "MediaWiki",
+		"descr": "A very popular blog software.",
+		"price": 34
+	},
+	{
+		"id": "dokuwiki",
+		"title": "DokuWiki",
+		"descr": "A very popular blog software.",
+		"price": 33
+	},
+	{
+		"id": "drupal",
+		"title": "Drupal",
+		"descr": "A very popular blog software.",
+		"price": 67
+	},
+	{
+		"id": "convas",
+		"title": "Canvas LMS",
+		"descr": "A very popular blog software.",
+		"price": 128
+	},
+	{
+		"id": "redmine",
+		"title": "RedMine",
+		"descr": "A very popular blog software.",
+		"price": 32
+	},
+	{
+		"id": "jitsimeet",
+		"title": "Jitsi Meet",
+		"descr": "A very popular blog software.",
+		"price": 199
+	}
+]
