@@ -10,13 +10,20 @@
 }*/
 
 header, main, footer {
-    padding-left: 240px;
+    /*padding-left: 256px;*/
 }
 
 header {
-	padding-top: 64px;
+/*	padding-top: 64px;*/
 }
 
+.mainContent {
+	padding-left: 256px;
+}
 .side-nav.fixed {
-	padding-top: 64px;
+	/*padding-top: 64px;*/
+}
+
+main {
+	margin-top: 5px;
 }
