@@ -11,10 +11,9 @@ Build or watch
 
 	cd app
 
-	browserify -t [ babelify --presets [ es2015 react ] ] js/app.js -o js/bundle.js
-	watchify --debug -t [ babelify --presets [ es2015 react ] ] js/app.js -o js/bundle.js
+	watchify --debug -t [ babelify --presets [ es2015 react ] --plugins [ transform-es2015-arrow-functions ] ] js/app.js -o js/bundle.js
 
+Alternatively from the root. Build:
 
 	browserify -t [ babelify --presets [ es2015 react ] ] app/js/app.js -o app/js/bundle.js
-	watchify --debug -t [ babelify --presets [ react ] ] app/js/app.js -o app/js/bundle.js
 

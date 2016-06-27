@@ -4,10 +4,6 @@ import React, {Component} from 'react';
 import AppDirectoryItem from './AppDirectoryItem.react';
 import AppLibraryStore from '../stores/AppLibraryStore';
 
-import CardExampleWithoutAvatar from './CardExampleWithoutAvatar.react';
-// var MessageStore = require('../stores/MessageStore');
-// var ThreadStore = require('../stores/ThreadStore');
-
 function getStateFromStores() {
   // console.log("Getting state from stores", AppLibraryStore.getAll());
   return {

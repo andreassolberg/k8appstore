@@ -1,4 +1,3 @@
-
 var Dispatcher = require('../dispatcher/AppStoreDispatcher');
 var Constants = require('../constants/Constants');
 var EventEmitter = require('events').EventEmitter;
@@ -7,65 +6,64 @@ var assign = require('object-assign');
 var ActionTypes = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-
 var _current = 'library';
 
 var NavigationStore = assign({}, EventEmitter.prototype, {
 
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
-  },
+    emitChange: function() {
+        this.emit(CHANGE_EVENT);
+    },
 
-  /**
-   * @param {function} callback
-   */
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
+    /**
+     * @param {function} callback
+     */
+    addChangeListener: function(callback) {
+        this.on(CHANGE_EVENT, callback);
+    },
 
-  /**
-   * @param {function} callback
-   */
-  removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
-  },
+    /**
+     * @param {function} callback
+     */
+    removeChangeListener: function(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
+    },
 
 
-  getCurrent: function() {
-    return _current;
-  }
+    getCurrent: function() {
+        return _current;
+    }
 
 });
 
 NavigationStore.dispatchToken = Dispatcher.register(function(action) {
-  // Dispatcher.waitFor([
-  //   ThreadStore.dispatchToken,
-  //   MessageStore.dispatchToken
-  // ]);
+    // Dispatcher.waitFor([
+    //   ThreadStore.dispatchToken,
+    //   MessageStore.dispatchToken
+    // ]);
 
 
 
-  console.error("NavigationStore, receive action", action);
+    console.error("NavigationStore, receive action", action);
 
-  switch (action.type) {
+    switch (action.type) {
 
-    case ActionTypes.INSTALL_APP:
+        case ActionTypes.INSTALL_APP:
 
-        
-      if (_current !== 'install') {
-        _current = 'install';
 
-        NavigationStore.emitChange();
-      }
-      break;
+            if (_current !== 'install') {
+                _current = 'install';
 
-    case ActionTypes.RECEIVE_RAW_MESSAGES:
-      NavigationStore.emitChange();
-      break;
+                NavigationStore.emitChange();
+            }
+            break;
 
-    default:
-      // do nothing
-  }
+        case ActionTypes.RECEIVE_RAW_MESSAGES:
+            NavigationStore.emitChange();
+            break;
+
+        default:
+            // do nothing
+    }
 });
 
 module.exports = NavigationStore;

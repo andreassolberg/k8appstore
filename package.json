@@ -9,6 +9,7 @@
   "author": "Andreas Åkre Solberg",
   "license": "BSD",
   "devDependencies": {
+    "babel-plugin-transform-es2015-arrow-functions": "^6.8.0"
   },
   "dependencies": {
     "cookie-parser": "^1.4.0",

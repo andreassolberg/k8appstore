@@ -6,10 +6,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import AppEngineCreators from '../actions/AppEngineCreators';
 
-
-
-
-
 class AppDirectoryItem extends Component {
   constructor(props, context) {
     super(props, context);
@@ -59,7 +55,7 @@ class AppDirectoryItem extends Component {
           <p>Price: {app.price} kr / mnd</p>
         </CardText>
         <CardActions expandable={true}>
-          <RaisedButton label="Install" primary={true} style={style} />
+          <RaisedButton label="Install" primary={true} style={style} onMouseUp={this._actInstall} />
           <FlatButton label="Demo" />
         </CardActions>
       </Card>
