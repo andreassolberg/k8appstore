@@ -1,0 +1,11 @@
+# Actions
+
+
+* `INSTALL_APP`
+* `INSTALL_CANCEL`
+* `RECEIVE_APPLIBRARY_ALL`
+
+
+
+
+A
