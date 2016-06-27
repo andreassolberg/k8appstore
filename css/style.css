@@ -1,13 +1,13 @@
 @import url("../node_modules/materialize-css/dist/css/materialize.min.css");
 
-/*html {
-  font-family: 'Roboto', sans-serif;
+html {
+  font-family: 'Roboto', sans-serif !important;
 }
-*/
-/*body {
+
+body {
   font-size: 13px;
   line-height: 20px;
-}*/
+}
 
 header, main, footer {
     padding-left: 240px;
