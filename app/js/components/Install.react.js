@@ -1,105 +1,203 @@
 import React, {Component, ReactPropTypes} from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
-// var AppEngineCreators = require('../actions/AppEngineCreators');
-// var AppNavicationCreators = require('../actions/AppEngineCreators');
+import DeploymentOptionsStore from '../stores/DeploymentOptionsStore';
+import AppEngineCreators from '../actions/AppEngineCreators';
+
+
+function getStateFromStores() {
+  // console.log("Getting state from stores", DeploymentOptionsStore.getOptions());
+  return {
+    options: DeploymentOptionsStore.getOptions(),
+		data: DeploymentOptionsStore.getData()
+    // thread: ThreadStore.getCurrent()
+  };
+}
 
 class Install extends Component {
 
-    constructor(props, context) {
-        super(props, context);
-        this.state = getStateFromStores();
-    }
-    _actInstallStart() {
-        console.log("Install start");
-    }
+	constructor(props, context) {
+		super(props, context);
+		this.state = getStateFromStores();
+		this.state.title = "";
+		this.state.hostname = "";
 
-    _actCancel() {
-        console.log("Install cancel");
-    }
+		this._actInstallStart = this._actInstallStart.bind(this);
+		this._actCancel = this._actCancel.bind(this);
+		this._onChange = this._onChange.bind(this);
+		this._onChangeInfra = this._onChangeInfra.bind(this);
+		this._onChangeSize = this._onChangeSize.bind(this);
+		this._onChangeDomain = this._onChangeDomain.bind(this);
+  }
 
-    render() {
-        var app = this.props.app;
 
-        return (
-            <div>
-                <nav className="top-nav">
-                    <div className="container">
-                        <div className="nav-wrapper">
-                            <a className="page-title">Installing app
-                            </a>
-                        </div>
-                    </div>
-                </nav>
-                <div className="container">
-                    <div className="row">
-                        <form className="col s12">
+  componentDidMount() {
+    // this._scrollToBottom();
+    DeploymentOptionsStore.addChangeListener(this._onChange);
+    // MessageStore.addChangeListener(this._onChange);
+    // ThreadStore.addChangeListener(this._onChange);
+  }
 
-                            <div className="row">
-                                <div className="input-field col s6">
-                                    <input id="first_name" type="text" className="validate"/>
-                                    <label for="first_name">App name</label>
-                                </div>
-                                <div className="input-field col s6">
-                                    <input id="last_name" type="text" className="validate"/>
-                                    <label for="last_name">Hostname</label>
-                                </div>
-                            </div>
+  componentWillUnmount() {
+    DeploymentOptionsStore.removeChangeListener(this._onChange);
+    // MessageStore.removeChangeListener(this._onChange);
+    // ThreadStore.removeChangeListener(this._onChange);
+  }
 
-                            <div className="row">
-                                <div className="input-field col s6">
-                                    <input id="first_name" type="text" className="validate"/>
-                                    <label for="first_name">App name</label>
-                                </div>
-                                <div className="input-field col s6">
-                                    <input id="last_name" type="text" className="validate"/>
-                                    <label for="last_name">Hostname</label>
-                                </div>
-                            </div>
 
-                            <div className="row">
-                                <p>Choose on which Cloud infrastructure platform to deploy the application:</p>
-                                <p>
-                                    <input type="checkbox" id="test5"/>
-                                    <label for="test5">Red</label>
-                                </p>
-                                <p>
-                                    <input name="group1" type="radio" id="test1"/>
-                                    <label for="test1">Sigma Cloud</label>
-                                </p>
-                                <p>
-                                    <input name="group1" type="radio" id="test2"/>
-                                    <label for="test2">IPnett Cloud</label>
-                                </p>
-                                <p>
-                                    <input className="with-gap" name="group1" type="radio" id="test3"/>
-                                    <label for="test3">Google Container Engine</label>
-                                </p>
-                                <p>
-                                    <input name="group1" type="radio" id="test4"/>
-                                    <label for="test4">UH-Intern Sky</label>
-                                </p>
-                                <p>
-                                    <input name="group1" type="radio" id="test5" disabled="disabled"/>
-                                    <label for="test5">Brown</label>
-                                </p>
-                            </div>
+  /**
+   * Event handler for 'change' events coming from the store
+   */
+  _onChange() {
+		console.error("Not sure what to do. Updates on DeploymentOptionsStore..");
+    // this.setState(getStateFromStores());
+  }
 
-                            <div className="row section">
-                                <p>
-                                    <button onClick={this._actInstallStart} className="btn waves-effect waves-light" type="submit" name="action">Install application
-                                        <i className="material-icons right">cloud</i>
-                                    </button>
-                                    &nbsp;
-                                    <a onClick={this._actCancel} className="waves-effect waves-teal btn-flat">Cancel</a>
-                                </p>
-                            </div>
+	_onChangeInfra(event, value) {
+		this.state.data.infrastructure = event.target.value;
+		this.setState(this.state);
+	}
+	_onChangeSize(event, value) {
+		this.state.data.size = event.target.value;
+		this.setState(this.state);
+	}
+	_onChangeDomain(event, index, value) {
+		// console.log("On change domain", event, index, value);
 
-                        </form>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+
+		this.state.data.domain = value;
+		this.setState(this.state);
+	}
+
+	_actInstallStart() {
+		console.log("Install _actInstallStart");
+	}
+
+	_actCancel() {
+		// console.log("Install _actCancel");
+	}
+
+	getIOption(key, infra) {
+		return (
+			<RadioButton
+				key={key}
+				value={key}
+				label={infra.title}
+				/>
+		);
+	}
+
+	getSizeOption(key, infra) {
+		return (
+			<RadioButton
+				key={key}
+				value={key}
+				label={infra.title}
+				/>
+		);
+	}
+
+	getDomainOption(domain) {
+		var td = "." + domain;
+		return <MenuItem key={domain} value={domain} primaryText={td} />;
+	}
+
+	render() {
+		var app = this.props.app
+
+		var appnameSuggestion = 'Andreas sin ' + app.title
+		// console.log("App it is", app, this.state)
+
+		var infraOptions = []
+		for(let key in this.state.options.infrastructure) {
+			infraOptions.push(this.getIOption(key, this.state.options.infrastructure[key]))
+		}
+
+		var sizeOptions = []
+		for(let key in this.state.options.sizes) {
+			sizeOptions.push(this.getSizeOption(key, this.state.options.sizes[key]))
+		}
+
+		var that = this;
+		var domainOptions = this.state.options.domains.map(function(x) {
+			return that.getDomainOption(x)
+		})
+
+		console.log("Render Install, state is", this.state);
+
+
+		return (
+			<div className="content">
+				<div className="">
+					<form className="">
+
+						<div className="section">
+							<h2>Basic info</h2>
+
+							<TextField
+								fullWidth={true}
+							  hintText={appnameSuggestion}
+							  floatingLabelText="Title of this application instance"
+							/>
+
+							<TextField
+							  floatingLabelText="Hostname"
+							/>
+							<SelectField value={this.state.data.domain} onChange={this._onChangeDomain}>
+			          {domainOptions}
+			        </SelectField>
+						</div>
+
+						<div className="section">
+
+							<h2>Infrastructure</h2>
+							<p>Choose on which Cloud infrastructure platform to deploy the application:</p>
+
+							<table className="tableFullWidth">
+								<tbody>
+									<tr>
+										<td>
+											<RadioButtonGroup name="infrastructureOption" defaultSelected={this.state.data.infrastructure} onChange={this._onChangeInfra}>
+												{infraOptions}
+											</RadioButtonGroup>
+
+										</td>
+										<td>
+											<RadioButtonGroup name="sizeOption" defaultSelected={this.state.data.size} onChange={this._onChangeSize}>
+												{sizeOptions}
+											</RadioButtonGroup>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div className="section">
+							<h2>Authentication and access control</h2>
+							<p></p>
+						</div>
+
+						<div className="section well">
+							<h3>Pricing</h3>
+							<p>199 kr / mnd</p>
+						</div>
+
+						<div>
+								<RaisedButton label="Install" primary={true} onMouseUp={this._actInstallStart} />
+			          <FlatButton label="Cancel" secondary={true} onMouseUp={this._actCancel} />
+						</div>
+
+
+					</form>
+				</div>
+			</div>
+		);
+	}
 }
 // console.log("ReactPropTypes", ReactPropTypes);
 // Install.propTypes = {

@@ -46,19 +46,18 @@ class AppListing extends Component {
   }
 
   render() {
-    console.log("Render, state", this.state);
+    // console.log("Render, state", this.state);
     var appItems = this.state.applications.map(getAppItem);
 
     return (
       <div>
 
-        <div className="container">
-          <div className="row">
+        <div className="content">
 
-            <div className="col s12 m9 l10">
+            <div className="">
               <div id="appstore"  className="appstore">
                 <div className="appdirectory" ref="appdirectory">
-                  <div className="row">
+                  <div className="">
                       {appItems}
                   </div>
                 </div>
@@ -71,14 +70,14 @@ class AppListing extends Component {
               </div>
 
               <div id="uhskyinfo" className="section scrollspy">
-                <div className="row">
+                <div className="">
                   <h2 className="header">UH-sky</h2>
                   <p className="caption">UH-sky er et program i regi av UNINETT, finansiert av Kunnskapsdepartementet. Initiativet til UH-sky ble tatt av UNINETT i samarbeid med UiB, UiO, UiT Norges arktiske universitet og NTNU.</p>
                 </div>
               </div>
             </div>
 
-            <div className="col hide-on-small-only m3 l2">
+            <div className="">
               <div className="toc-wrapper">
                 <div className="toc-wrapperInner">
                   <ul className="section table-of-contents">
@@ -89,7 +88,6 @@ class AppListing extends Component {
               </div>
             </div>
 
-          </div>
         </div>
       </div>
     );

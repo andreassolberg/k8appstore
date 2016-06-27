@@ -1,13 +1,15 @@
-@import url("../node_modules/materialize-css/dist/css/materialize.min.css");
+/*@import url("../node_modules/materialize-css/dist/css/materialize.min.css"); 
+*/
 
-/*html {
+/*@import url("../node_modules/flexboxgrid/dist/flexboxgrid.min.css");*/
+html {
   font-family: 'Roboto', sans-serif;
 }
-*/
-/*body {
-  font-size: 13px;
+
+body {
+  font-size: 16px;
   line-height: 20px;
-}*/
+}
 
 header, main, footer {
     /*padding-left: 256px;*/
@@ -26,4 +28,31 @@ header {
 
 main {
 	margin-top: 5px;
+}
+
+
+.content {
+	margin: 0px;
+	padding: 25px;
+}
+.section {
+	margin-bottom: 50px;
+}
+
+.well p {
+	margin-top: 0px;
+}
+.well {
+	margin: 25px 0px;
+	padding: 15px;
+	border: 1px solid #ccc;
+	background-color: #f6f6f6;
+	border-radius: 4px;
+}
+.tableFullWidth {
+	width: 100%;
+}
+.tableFullWidth tr td {
+	vertical-align: top;
+	width: 50%;
 }

@@ -12,7 +12,7 @@ module.exports = {
     // console.log("Install app", app)
     Dispatcher.dispatch({
       type: ActionTypes.INSTALL_APP,
-      apps: app
+      app: app
     });
   },
 
@@ -20,11 +20,12 @@ module.exports = {
     // console.log("Install app", app)
     Dispatcher.dispatch({
       type: ActionTypes.INSTALL_CANCEL,
-      apps: app
+      app: app
     });
   },
 
   receiveCreatedApp: function(app) {
+		// console.log("Install app", app)
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_RAW_CREATED_MESSAGE,
       app: app

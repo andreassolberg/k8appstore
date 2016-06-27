@@ -43,7 +43,7 @@ NavigationStore.dispatchToken = Dispatcher.register(function(action) {
 
 
 
-    console.error("NavigationStore, receive action", action);
+    // console.error("NavigationStore, receive action", action);
 
     switch (action.type) {
 
@@ -52,7 +52,7 @@ NavigationStore.dispatchToken = Dispatcher.register(function(action) {
 
             if (_current !== 'install') {
                 _current = 'install';
-
+								// console.log("Emit change on NavigationStore");
                 NavigationStore.emitChange();
             }
             break;

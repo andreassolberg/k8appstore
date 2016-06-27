@@ -4,6 +4,7 @@ import {List, ListItem} from 'material-ui/List';
 
 // Stores
 import NavigationStore from '../stores/NavigationStore';
+import DeploymentOptionsStore from '../stores/DeploymentOptionsStore';
 
 // React compontents
 import AppDirectory from './AppDirectory.react';
@@ -11,27 +12,30 @@ import Install from './Install.react';
 
 function getStateFromStores() {
 	var navCurrent = NavigationStore.getCurrent();
-	console.error("AppStore: Getting state from stores", navCurrent);
+	var app = DeploymentOptionsStore.getApp();
 	return {
 		nav: navCurrent,
-		// thread: ThreadStore.getCurrent()
+		app: app
 	};
 }
 
 class AppStore extends Component {
 	constructor(props, context) {
 		super(props, context);
+		this._onChange = this._onChange.bind(this);
 		this.state = getStateFromStores();
 	}
 
 	componentDidMount() {
-		NavigationStore.addChangeListener(() => this._onChange);
+		NavigationStore.addChangeListener(this._onChange);
+		DeploymentOptionsStore.addChangeListener(this._onChange);
 		// MessageStore.addChangeListener(this._onChange);
 		// ThreadStore.addChangeListener(this._onChange);
 	}
 
 	componentWillUnmount() {
 		NavigationStore.removeChangeListener(() => this._onChange);
+		DeploymentOptionsStore.removeChangeListener(() => this._onChange);
 		// MessageStore.removeChangeListener(this._onChange);
 		// ThreadStore.removeChangeListener(this._onChange);
 	}
@@ -40,7 +44,7 @@ class AppStore extends Component {
 	* Event handler for 'change' events coming from the MessageStore
 	*/
 	_onChange() {
-		console.log("Set state..");
+		// console.log("Set state..");
 		this.setState(getStateFromStores());
 	}
 
@@ -49,12 +53,13 @@ class AppStore extends Component {
 		var mainElement = null;
 		// console.error("render", this.state);
 
-		console.log("RENDER STATE", this.state);
+		// console.log("RENDER STATE", this.state);
 		if (this.state.nav === 'library') {
 			mainElement = <AppDirectory/>;
 		}
 		if (this.state.nav === 'install') {
-			mainElement = <Install/>;
+			let app = this.state.app;
+			mainElement = <Install app={app} />;
 		}
 
 		return (

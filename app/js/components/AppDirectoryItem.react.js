@@ -3,7 +3,6 @@ import {Card, CardTitle, CardActions, CardHeader, CardText, CardMedia} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-
 import AppEngineCreators from '../actions/AppEngineCreators';
 
 class AppDirectoryItem extends Component {
