@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import AppStore from './components/AppStore.react';
+import MenuDrawer from './components/MenuDrawer.react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -20,7 +21,10 @@ injectTapEventPlugin();
 
 render(
 	<MuiThemeProvider>
-		<AppStore />
+		<div>
+			<MenuDrawer />
+			<AppStore />
+		</div>
 	</MuiThemeProvider>,
 	document.getElementById('react')
 );

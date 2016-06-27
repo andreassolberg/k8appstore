@@ -1,22 +1,29 @@
 @import url("../node_modules/materialize-css/dist/css/materialize.min.css");
 
-html {
-  font-family: 'Roboto', sans-serif !important;
+/*html {
+  font-family: 'Roboto', sans-serif;
 }
-
-body {
+*/
+/*body {
   font-size: 13px;
   line-height: 20px;
-}
+}*/
 
 header, main, footer {
-    padding-left: 240px;
+    /*padding-left: 256px;*/
 }
 
 header {
-	padding-top: 64px;
+/*	padding-top: 64px;*/
 }
 
+.mainContent {
+	padding-left: 256px;
+}
 .side-nav.fixed {
-	padding-top: 64px;
+	/*padding-top: 64px;*/
+}
+
+main {
+	margin-top: 5px;
 }
