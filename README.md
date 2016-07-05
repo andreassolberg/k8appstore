@@ -17,3 +17,13 @@ Alternatively from the root. Build:
 
 	browserify -t [ babelify --presets [ es2015 react ] ] app/js/app.js -o app/js/bundle.js
 
+
+
+Install dependencies:
+
+	npm i
+	cd app
+	npm i
+
+	npm install babelify -g
+	npm install watchify -g
