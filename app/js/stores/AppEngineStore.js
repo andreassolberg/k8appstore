@@ -1,8 +1,10 @@
 
-var Dispatcher = require('../dispatcher/AppStoreDispatcher');
-var Constants = require('../constants/Constants');
-var ChatMessageUtils = require('../utils/ChatMessageUtils');
-var EventEmitter = require('events').EventEmitter;
+var
+  Dispatcher = require('../dispatcher/AppStoreDispatcher'),
+  Constants = require('../constants/Constants'),
+  ChatMessageUtils = require('../utils/ChatMessageUtils'),
+  EventEmitter = require('events').EventEmitter,
+  API = require('../utils/API')
 
 var assign = require('object-assign');
 
@@ -66,29 +68,54 @@ var AppEngineStore = assign({}, EventEmitter.prototype, {
 
 AppEngineStore.dispatchToken = Dispatcher.register(function(action) {
 
+
   switch(action.type) {
 
-    case ActionTypes.CLICK_THREAD:
-      // Dispatcher.waitFor([ThreadStore.dispatchToken]);
-      // _markAllInThreadRead(ThreadStore.getCurrentID());
-      AppEngineStore.emitChange();
-      break;
+    case ActionTypes.INSTALL_APP:
 
-    case ActionTypes.CREATE_MESSAGE:
-      var message = ChatMessageUtils.getCreatedMessageData(
-        action.text,
-        action.currentThreadID
-      );
-      _applications[message.id] = message;
-      AppEngineStore.emitChange();
-      break;
 
-    case ActionTypes.RECEIVE_RAW_MESSAGES:
-      // _addMessages(action.rawMessages);
-      // Dispatcher.waitFor([ThreadStore.dispatchToken]);
-      // _markAllInThreadRead(ThreadStore.getCurrentID());
-      AppEngineStore.emitChange();
-      break;
+      console.log("AppEngineStore triggered on ActionTypes.INSTALL_APP")
+      let app = action.app
+      let deploymentConfig = {
+        "application": app.app.application,
+        "meta": {
+          "title": app.title
+        },
+        "services": {
+          "dns": {
+            "hostname": app.hostname,
+            "domain": app.domain
+          },
+          "dataporten": {
+            "token": "xxx"
+          }
+        },
+        "infrastructure": app.infrastructure,
+        "size": app.size,
+        "admingroup": "fc:org:uninett.no"
+      }
+
+      API.install(deploymentConfig)
+      break
+
+      AppEngineStore.emitChange()
+      break
+
+    // case ActionTypes.CREATE_MESSAGE:
+    //   var message = ChatMessageUtils.getCreatedMessageData(
+    //     action.text,
+    //     action.currentThreadID
+    //   );
+    //   _applications[message.id] = message;
+    //   AppEngineStore.emitChange();
+    //   break;
+    //
+    // case ActionTypes.RECEIVE_RAW_MESSAGES:
+    //   // _addMessages(action.rawMessages);
+    //   // Dispatcher.waitFor([ThreadStore.dispatchToken]);
+    //   // _markAllInThreadRead(ThreadStore.getCurrentID());
+    //   AppEngineStore.emitChange();
+    //   break;
 
     default:
       // do nothing

@@ -15,6 +15,9 @@ var keyMirror = require('keymirror');
 module.exports = {
 
   ActionTypes: keyMirror({
+
+    RECEIVE_DEPLOYMENTS_ALL: null,
+    DEPLOY_SETUP_APP: null,
     INSTALL_APP: null,
     INSTALL_CANCEL: null,
 

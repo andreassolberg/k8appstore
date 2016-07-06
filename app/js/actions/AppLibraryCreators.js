@@ -6,18 +6,18 @@ var ActionTypes = Constants.ActionTypes;
 
 module.exports = {
 
-  receiveAll: function(apps) {
+  receiveAll(apps) {
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_APPLIBRARY_ALL,
       apps: apps
-    });
+    })
   },
 
-  receiveCreatedApp: function(app) {
+  receiveCreatedApp(app) {
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_RAW_CREATED_MESSAGE,
       app: app
-    });
+    })
   }
 
-};
+}

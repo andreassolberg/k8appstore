@@ -24,15 +24,17 @@ class Install extends Component {
 	constructor(props, context) {
 		super(props, context);
 		this.state = getStateFromStores();
-		this.state.title = "";
-		this.state.hostname = "";
 
 		this._actInstallStart = this._actInstallStart.bind(this);
 		this._actCancel = this._actCancel.bind(this);
+
 		this._onChange = this._onChange.bind(this);
 		this._onChangeInfra = this._onChangeInfra.bind(this);
 		this._onChangeSize = this._onChangeSize.bind(this);
 		this._onChangeDomain = this._onChangeDomain.bind(this);
+
+    this._onChangeTitle = this._onChangeTitle.bind(this);
+    this._onChangeHostname = this._onChangeHostname.bind(this);
   }
 
 
@@ -54,32 +56,43 @@ class Install extends Component {
    * Event handler for 'change' events coming from the store
    */
   _onChange() {
-		console.error("Not sure what to do. Updates on DeploymentOptionsStore..");
+		console.error("Not sure what to do. Updates on DeploymentOptionsStore..")
+    console.log()
     // this.setState(getStateFromStores());
   }
 
 	_onChangeInfra(event, value) {
-		this.state.data.infrastructure = event.target.value;
-		this.setState(this.state);
+		this.state.data.infrastructure = event.target.value
+		this.setState(this.state)
+    console.log("Change infra", JSON.stringify(this.state.data, undefined, 2))
 	}
 	_onChangeSize(event, value) {
-		this.state.data.size = event.target.value;
-		this.setState(this.state);
+		this.state.data.size = event.target.value
+		this.setState(this.state)
 	}
 	_onChangeDomain(event, index, value) {
 		// console.log("On change domain", event, index, value);
-
-
-		this.state.data.domain = value;
-		this.setState(this.state);
+		this.state.data.domain = value
+		this.setState(this.state)
 	}
 
+  _onChangeTitle(event, value) {
+    this.state.data.title = value
+    this.setState(this.state)
+  }
+
+  _onChangeHostname(event, value) {
+    this.state.data.hostname = value
+    this.setState(this.state)
+  }
+
 	_actInstallStart() {
-		console.log("Install _actInstallStart");
+    AppEngineCreators.installApp(this.state.data)
+		console.log("Install _actInstallStart")
 	}
 
 	_actCancel() {
-		// console.log("Install _actCancel");
+    AppEngineCreators.installCancel()
 	}
 
 	getIOption(key, infra) {
@@ -140,13 +153,17 @@ class Install extends Component {
 							<h2>Basic info</h2>
 
 							<TextField
+                value={this.state.data.title}
 								fullWidth={true}
 							  hintText={appnameSuggestion}
 							  floatingLabelText="Title of this application instance"
+                onChange={this._onChangeTitle}
 							/>
 
 							<TextField
 							  floatingLabelText="Hostname"
+                value={this.state.data.hostname}
+                onChange={this._onChangeHostname}
 							/>
 							<SelectField value={this.state.data.domain} onChange={this._onChangeDomain}>
 			          {domainOptions}

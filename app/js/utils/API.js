@@ -1,20 +1,70 @@
-
-var AppLibraryCreators = require('../actions/AppLibraryCreators');
-
+var
+  AppLibraryCreators = require('../actions/AppLibraryCreators'),
+  AppEngineCreators = require('../actions/AppEngineCreators'),
+  requestraw = require('browser-request')
 
 var baseURL = 'http://localhost:8080'
 
 
-module.exports = {
+let request = function(opts) {
+  return new Promise(function(resolve, reject) {
+    requestraw(opts, (err, result, body) => {
+      if (err) {
+        return reject(err)
+      }
+      return resolve(body, result)
+    })
+  })
+}
 
-  getInitialLibrary: function() {
 
-    $.getJSON(baseURL + '/applications', function(data) {
-      // console.error("Library is", data);
-      AppLibraryCreators.receiveAll(data);
+var API = {
 
-    });
+  init() {
+    API.getLibrary()
+    API.getDeployments()
+  },
 
+  getLibrary() {
+
+    let opts = {
+      "url": baseURL + '/applications',
+      "json": true
+    }
+    request(opts)
+      .then((data) => {
+        AppLibraryCreators.receiveAll(data);
+      })
+  },
+
+  getDeployments() {
+
+    let opts = {
+      "url": baseURL + '/deployments',
+      "json": true
+    }
+    request(opts)
+      .then((data) => {
+        // console.log("receiveDeploymentsAll", data)
+        // console.log("AppEngineCreators", AppEngineCreators)
+        // console.log("AppLibraryCreators", AppLibraryCreators)
+        AppEngineCreators.receiveDeploymentsAll(data);
+      })
+  },
+
+  install(app) {
+    var opts = {
+      "url": baseURL + '/deployments',
+      "method": "POST",
+      "json": app
+    }
+    return request(opts)
+      .then((response) => {
+        console.log("Successfull response", response);
+      })
+      .catch((err) => {
+        console.error("Error response", err);
+      })
   }
 
   // createMessage: function(message, threadName) {
@@ -40,4 +90,6 @@ module.exports = {
   //   }, 0);
   // }
 
-};
+}
+
+module.exports = API

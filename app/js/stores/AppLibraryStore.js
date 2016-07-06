@@ -63,8 +63,6 @@ var AppLibraryStore = assign({}, EventEmitter.prototype, {
 
 AppLibraryStore.dispatchToken = Dispatcher.register(function(action) {
 
-  // console.log("dispatchToken", action);
-
   switch(action.type) {
 
     case ActionTypes.CLICK_THREAD:

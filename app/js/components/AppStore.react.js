@@ -41,7 +41,7 @@ class AppStore extends Component {
 	}
 
 	/**
-	* Event handler for 'change' events coming from the MessageStore
+	* Event handler for 'change' events coming from the stores
 	*/
 	_onChange() {
 		// console.log("Set state..");

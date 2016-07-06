@@ -99,7 +99,7 @@ DeploymentOptionsStore.dispatchToken = Dispatcher.register(function(action) {
 
   switch (action.type) {
 
-    case ActionTypes.INSTALL_APP:
+    case ActionTypes.DEPLOY_SETUP_APP:
 			// console.log("ActionTypes.INSTALL_APP setting", action.app);
       _data.app = action.app;
       // console.log("Installing app (deployment options store)", _data.app);

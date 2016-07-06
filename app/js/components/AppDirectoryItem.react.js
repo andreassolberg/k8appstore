@@ -63,7 +63,7 @@ class AppDirectoryItem extends Component {
 
   _actInstall(event, value) {
     // console.log("_actInstall");
-    AppEngineCreators.installApp(this.props.app);
+    AppEngineCreators.deploySetup(this.props.app);
   }
 
 }
