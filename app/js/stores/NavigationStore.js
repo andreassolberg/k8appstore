@@ -6,7 +6,7 @@ var assign = require('object-assign');
 var ActionTypes = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var _current = 'library';
+var _current = 'deployments';
 
 var NavigationStore = assign({}, EventEmitter.prototype, {
 

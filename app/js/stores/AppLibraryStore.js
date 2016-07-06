@@ -36,7 +36,10 @@ var AppLibraryStore = assign({}, EventEmitter.prototype, {
   },
 
   get: function(id) {
-    return _applications[id];
+    if (!_applications.hasOwnProperty(id)) {
+      return null
+    }
+    return _applications[id]
   },
 
   /**

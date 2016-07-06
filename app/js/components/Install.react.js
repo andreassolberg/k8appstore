@@ -64,7 +64,7 @@ class Install extends Component {
 	_onChangeInfra(event, value) {
 		this.state.data.infrastructure = event.target.value
 		this.setState(this.state)
-    console.log("Change infra", JSON.stringify(this.state.data, undefined, 2))
+    // console.log("Change infra", JSON.stringify(this.state.data, undefined, 2))
 	}
 	_onChangeSize(event, value) {
 		this.state.data.size = event.target.value
@@ -87,8 +87,27 @@ class Install extends Component {
   }
 
 	_actInstallStart() {
-    AppEngineCreators.installApp(this.state.data)
-		console.log("Install _actInstallStart")
+
+    let deploymentConfig = {
+      "application": this.state.data.app.application,
+      "meta": {
+        "title": this.state.data.title
+      },
+      "services": {
+        "dns": {
+          "hostname": this.state.data.hostname,
+          "domain": this.state.data.domain
+        },
+        "dataporten": {
+          "token": "xxx"
+        }
+      },
+      "infrastructure": this.state.data.infrastructure,
+      "size": this.state.data.size,
+      "admingroup": "fc:org:uninett.no"
+    }
+    AppEngineCreators.installApp(deploymentConfig)
+
 	}
 
 	_actCancel() {
@@ -141,7 +160,7 @@ class Install extends Component {
 			return that.getDomainOption(x)
 		})
 
-		console.log("Render Install, state is", this.state);
+		// console.log("Render Install, state is", this.state);
 
 
 		return (

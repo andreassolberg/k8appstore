@@ -19,7 +19,7 @@ var AppEngineCreators = {
 
   installApp: function(app) {
 
-    console.log("About to dispatch ActionTypes.INSTALL_APP", app)
+    // console.log("About to dispatch ActionTypes.INSTALL_APP", app)
 
     Dispatcher.dispatch({
       type: ActionTypes.INSTALL_APP,
@@ -38,10 +38,23 @@ var AppEngineCreators = {
 
   },
 
+  receiveDeploymentSuccess(deployment) {
+    Dispatcher.dispatch({
+      type: ActionTypes.RECEIVE_DEPLOYMENT_SUCCESS,
+      deployment: deployment
+    })
+  },
+  receiveDeploymentFailed(err) {
+    Dispatcher.dispatch({
+      type: ActionTypes.RECEIVE_DEPLOYMENT_FAILED,
+      error: deployments
+    })
+  },
+
   receiveDeploymentsAll: function(deployments) {
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_DEPLOYMENTS_ALL,
-      apps: deployments
+      deployments: deployments
     })
   },
 

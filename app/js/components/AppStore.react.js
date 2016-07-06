@@ -1,14 +1,15 @@
-import React, {Component} from 'react';
-import AppBar from 'material-ui/AppBar';
-import {List, ListItem} from 'material-ui/List';
+import React, {Component} from 'react'
+import AppBar from 'material-ui/AppBar'
+import {List, ListItem} from 'material-ui/List'
 
 // Stores
-import NavigationStore from '../stores/NavigationStore';
-import DeploymentOptionsStore from '../stores/DeploymentOptionsStore';
+import NavigationStore from '../stores/NavigationStore'
+import DeploymentOptionsStore from '../stores/DeploymentOptionsStore'
 
 // React compontents
-import AppDirectory from './AppDirectory.react';
-import Install from './Install.react';
+import AppDirectory from './AppDirectory.react'
+import DeploymentList from './DeploymentList.react'
+import Install from './Install.react'
 
 function getStateFromStores() {
 	var navCurrent = NavigationStore.getCurrent();
@@ -16,7 +17,7 @@ function getStateFromStores() {
 	return {
 		nav: navCurrent,
 		app: app
-	};
+	}
 }
 
 class AppStore extends Component {
@@ -60,6 +61,9 @@ class AppStore extends Component {
 		if (this.state.nav === 'install') {
 			let app = this.state.app;
 			mainElement = <Install app={app} />;
+		}
+		if (this.state.nav === 'deployments') {
+			mainElement = <DeploymentList />;
 		}
 
 		return (

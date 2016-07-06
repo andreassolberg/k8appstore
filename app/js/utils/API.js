@@ -9,9 +9,20 @@ var baseURL = 'http://localhost:8080'
 let request = function(opts) {
   return new Promise(function(resolve, reject) {
     requestraw(opts, (err, result, body) => {
+      // console.log("Request ----- ");
+      // console.log("opts", opts)
+      // console.log("err", err)
+      // console.log("result", result)
+      // console.log("body", body)
+
       if (err) {
-        return reject(err)
+        return reject(err, result)
       }
+
+      if (result.statusCode !== 200) {
+        return reject(body, result)
+      }
+
       return resolve(body, result)
     })
   })
@@ -43,6 +54,7 @@ var API = {
       "url": baseURL + '/deployments',
       "json": true
     }
+    
     request(opts)
       .then((data) => {
         // console.log("receiveDeploymentsAll", data)
@@ -59,11 +71,15 @@ var API = {
       "json": app
     }
     return request(opts)
-      .then((response) => {
-        console.log("Successfull response", response);
+      .then((response, req) => {
+        // console.log("Successfull response", response);
+        // console.log("Full requeset", req)
+
+        AppEngineCreators.receiveDeploymentSuccess(response);
       })
       .catch((err) => {
-        console.error("Error response", err);
+        // console.error("Error response", err);
+        AppEngineCreators.receiveDeploymentFailed(err);
       })
   }
 
