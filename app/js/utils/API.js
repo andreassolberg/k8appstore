@@ -5,6 +5,7 @@ var
 
 var baseURL = 'http://localhost:8080'
 
+var token = null;
 
 let request = function(opts) {
   return new Promise(function(resolve, reject) {
@@ -28,12 +29,34 @@ let request = function(opts) {
   })
 }
 
+let arequest = function(opts) {
+  if (!opts.headers) {
+    opts.headers = {}
+  }
+  opts.headers.Authorization = "Bearer " + token.access_token
+  return request(opts)
+}
+
+
+
+var jso = new JSO({
+    providerID: "dataporten",
+    client_id: "75adc2bb-1800-4f1c-abe4-bb7da7080485",
+    redirect_uri: "http://127.0.0.1:3000/",
+    authorization: "https://auth.dataporten.no/oauth/authorization",
+    scopes: {}
+});
+
+jso.callback();
 
 var API = {
 
   init() {
+
+    API.authenticate()
     API.getLibrary()
     API.getDeployments()
+
   },
 
   getLibrary() {
@@ -54,7 +77,7 @@ var API = {
       "url": baseURL + '/deployments',
       "json": true
     }
-    
+
     request(opts)
       .then((data) => {
         // console.log("receiveDeploymentsAll", data)
@@ -80,6 +103,41 @@ var API = {
       .catch((err) => {
         // console.error("Error response", err);
         AppEngineCreators.receiveDeploymentFailed(err);
+      })
+  },
+
+  authenticate() {
+
+    let opts = {
+
+    }
+    return jso.getToken(opts)
+      .then(function(t) {
+  			console.log("I got the token: ", t);
+        token = t;
+
+        API.getUserinfo()
+        API.getGroups()
+  		});
+
+  },
+
+
+  getUserinfo() {
+    arequest({
+      "url": "https://auth.dataporten.no/userinfo"
+    })
+      .then((userinfo) => {
+        console.log("Userinfo", userinfo)
+      })
+  },
+
+  getGroups() {
+    arequest({
+      "url": "https://groups-api.dataporten.no/groups/me/groups"
+    })
+      .then((groups) => {
+        console.log("Groups", groups)
       })
   }
 
