@@ -15,7 +15,7 @@ function getStateFromStores() {
 function getAppItem(app) {
   return (
     <AppDirectoryItem
-      key={app.id}
+      key={app.application}
       app={app}
     />
   );

@@ -2,12 +2,14 @@
 var AppLibraryCreators = require('../actions/AppLibraryCreators');
 
 
+var baseURL = 'http://localhost:8080'
+
 
 module.exports = {
 
   getInitialLibrary: function() {
-    
-    $.getJSON('/api/apps', function(data) {
+
+    $.getJSON(baseURL + '/applications', function(data) {
       // console.error("Library is", data);
       AppLibraryCreators.receiveAll(data);
 

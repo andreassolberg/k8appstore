@@ -12,23 +12,11 @@ var _applications = {};
 
 function _addApps(apps) {
   apps.forEach(function(app) {
-    if (!_applications[app.id]) {
-      _applications[app.id] = app;
-      //  ChatMessageUtils.convertRawMessage(
-      //   message,
-      //   ThreadStore.getCurrentID()
-      // );
+    if (!_applications[app.application]) {
+      _applications[app.application] = app;
     }
   });
 }
-
-// function _markAllInThreadRead(threadID) {
-//   for (var id in _applications) {
-//     if (_applications[id].threadID === threadID) {
-//       _applications[id].isRead = true;
-//     }
-//   }
-// }
 
 var AppLibraryStore = assign({}, EventEmitter.prototype, {
 
