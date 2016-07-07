@@ -16,10 +16,15 @@ module.exports = {
 
   ActionTypes: keyMirror({
 
+    AUTHENTICATION_SUCCESS: null,
+
     RECEIVE_DEPLOYMENTS_ALL: null,
     RECEIVE_DEPLOYMENT_SUCCESS: null,
     RECEIVE_DEPLOYMENT_FAILED: null,
+
     DEPLOY_SETUP_APP: null,
+    DEPLOY_DELETE: null,
+    DEPLOY_DELETE_SUCCESS: null,
     INSTALL_APP: null,
     INSTALL_CANCEL: null,
 

@@ -37,6 +37,10 @@ function _addDeployments(items) {
   })
 }
 
+function _removeDeployment(id) {
+  delete _deployments[id]
+}
+
 
 var AppEngineStore = assign({}, EventEmitter.prototype, {
 
@@ -83,23 +87,31 @@ var AppEngineStore = assign({}, EventEmitter.prototype, {
 AppEngineStore.dispatchToken = Dispatcher.register(function(action) {
 
 
+
   switch(action.type) {
 
     case ActionTypes.RECEIVE_DEPLOYMENT_SUCCESS:
       _addApp(action.deployment);
       AppEngineStore.emitChange();
-      break;
+      break
 
     case ActionTypes.RECEIVE_DEPLOYMENTS_ALL:
       _addDeployments(action.deployments);
       AppEngineStore.emitChange();
-      break;
+      break
 
     case ActionTypes.INSTALL_APP:
+      API.install(action.deploymentConfig)
+      break
 
-      let deploymentConfig = action.deploymentConfig;
+    case ActionTypes.DEPLOY_DELETE:
 
-      API.install(deploymentConfig)
+      API.deploymentDelete(action.deploymentId)
+      break
+
+    case ActionTypes.DEPLOY_DELETE_SUCCESS:
+      _removeDeployment(action.deploymentId)
+      AppEngineStore.emitChange();
       break
 
 
@@ -108,26 +120,8 @@ AppEngineStore.dispatchToken = Dispatcher.register(function(action) {
       AppEngineStore.emitChange()
       break
 
-
-
-    // case ActionTypes.CREATE_MESSAGE:
-    //   var message = ChatMessageUtils.getCreatedMessageData(
-    //     action.text,
-    //     action.currentThreadID
-    //   );
-    //   _applications[message.id] = message;
-    //   AppEngineStore.emitChange();
-    //   break;
-    //
-    // case ActionTypes.RECEIVE_RAW_MESSAGES:
-    //   // _addMessages(action.rawMessages);
-    //   // Dispatcher.waitFor([ThreadStore.dispatchToken]);
-    //   // _markAllInThreadRead(ThreadStore.getCurrentID());
-    //   AppEngineStore.emitChange();
-    //   break;
-
     default:
-      // do nothing
+
   }
 
 });

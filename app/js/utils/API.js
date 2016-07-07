@@ -1,6 +1,8 @@
 var
   AppLibraryCreators = require('../actions/AppLibraryCreators'),
   AppEngineCreators = require('../actions/AppEngineCreators'),
+  MiscCreators = require('../actions/MiscCreators'),
+
   requestraw = require('browser-request')
 
 var baseURL = 'http://localhost:8080'
@@ -49,6 +51,16 @@ var jso = new JSO({
 
 jso.callback();
 
+var delayIt = function(ms) {
+  return function(data) {
+    return new Promise(function(resolve, reject) {
+      setTimeout(() => {
+        resolve(data)
+      }, ms)
+    })
+  }
+}
+
 var API = {
 
   init() {
@@ -69,6 +81,7 @@ var API = {
       .then((data) => {
         AppLibraryCreators.receiveAll(data);
       })
+
   },
 
   getDeployments() {
@@ -95,14 +108,25 @@ var API = {
     }
     return request(opts)
       .then((response, req) => {
-        // console.log("Successfull response", response);
-        // console.log("Full requeset", req)
-
         AppEngineCreators.receiveDeploymentSuccess(response);
       })
       .catch((err) => {
-        // console.error("Error response", err);
         AppEngineCreators.receiveDeploymentFailed(err);
+      })
+  },
+
+  deploymentDelete(deploymentId) {
+    var opts = {
+      "url": baseURL + '/deployments/' + deploymentId,
+      "method": "DELETE"
+    }
+    return request(opts)
+      .then((response, req) => {
+        AppEngineCreators.deleteDeploymentSuccess(deploymentId);
+      })
+      .catch((err) => {
+        console.error("Error deleting app instance", err)
+        // AppEngineCreators.receiveDeploymentFailed(err);
       })
   },
 
@@ -113,32 +137,40 @@ var API = {
     }
     return jso.getToken(opts)
       .then(function(t) {
-  			console.log("I got the token: ", t);
+  			// console.log("I got the token: ", t);
         token = t;
 
-        API.getUserinfo()
-        API.getGroups()
-  		});
+        return Promise.all([
+          API.getUserinfo(),
+          API.getGroups()
+        ])
+      })
+      .then((results) => {
+        // console.log("RESULTS", results)
+        MiscCreators.authenticationSuccess(...results)
+      })
 
   },
 
 
   getUserinfo() {
-    arequest({
-      "url": "https://auth.dataporten.no/userinfo"
+    return arequest({
+      "url": "https://auth.dataporten.no/userinfo",
+      "json": true
     })
-      .then((userinfo) => {
-        console.log("Userinfo", userinfo)
-      })
+      // .then((userinfo) => {
+      //   console.log("Userinfo", userinfo)
+      // })
   },
 
   getGroups() {
-    arequest({
-      "url": "https://groups-api.dataporten.no/groups/me/groups"
+    return arequest({
+      "url": "https://groups-api.dataporten.no/groups/me/groups",
+      "json": true
     })
-      .then((groups) => {
-        console.log("Groups", groups)
-      })
+      // .then((groups) => {
+      //   console.log("Groups", groups)
+      // })
   }
 
   // createMessage: function(message, threadName) {

@@ -2,9 +2,19 @@ import React, {Component} from 'react'
 import AppBar from 'material-ui/AppBar'
 import {List, ListItem} from 'material-ui/List'
 
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import DropDownMenu from 'material-ui/DropDownMenu';
+
+
 // Stores
 import NavigationStore from '../stores/NavigationStore'
 import DeploymentOptionsStore from '../stores/DeploymentOptionsStore'
+import UserContextStore from '../stores/UserContextStore'
 
 // React compontents
 import AppDirectory from './AppDirectory.react'
@@ -12,11 +22,13 @@ import DeploymentList from './DeploymentList.react'
 import Install from './Install.react'
 
 function getStateFromStores() {
-	var navCurrent = NavigationStore.getCurrent();
-	var app = DeploymentOptionsStore.getApp();
+	var navCurrent = NavigationStore.getCurrent()
+	var app = DeploymentOptionsStore.getApp()
+	var usercontext = UserContextStore.getContext()
 	return {
 		nav: navCurrent,
-		app: app
+		app: app,
+		usercontext: usercontext
 	}
 }
 
@@ -28,6 +40,7 @@ class AppStore extends Component {
 	}
 
 	componentDidMount() {
+		UserContextStore.addChangeListener(this._onChange);
 		NavigationStore.addChangeListener(this._onChange);
 		DeploymentOptionsStore.addChangeListener(this._onChange);
 		// MessageStore.addChangeListener(this._onChange);
@@ -35,6 +48,7 @@ class AppStore extends Component {
 	}
 
 	componentWillUnmount() {
+		UserContextStore.removeChangeListener(() => this._onChange);
 		NavigationStore.removeChangeListener(() => this._onChange);
 		DeploymentOptionsStore.removeChangeListener(() => this._onChange);
 		// MessageStore.removeChangeListener(this._onChange);
@@ -65,10 +79,49 @@ class AppStore extends Component {
 		if (this.state.nav === 'deployments') {
 			mainElement = <DeploymentList />;
 		}
+// muidocs-icon-navigation-expand-more
+
+
+	var authMenu = null
+	// if (this.state.usercontext.authenticated) {
+
+	var iconButton = (
+		<FlatButton
+      label="Andreas Åkre Solberg"
+			labelPosition="before"
+      secondary={false}
+      icon={<NavigationExpandMoreIcon />}
+    />
+	)
+
+	// iconButton = (
+	// 	<IconButton touch={true}>
+	// 		<p>BLah</p>
+	// 		<NavigationExpandMoreIcon />
+	// 	</IconButton>
+	// )
+
+
+	authMenu = (
+		<IconMenu
+			anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+			iconButtonElement={iconButton}
+		>
+			<MenuItem primaryText="My profile" />
+			<MenuItem primaryText="Logout" />
+		</IconMenu>
+	)
+
+		// }
+
+
 
 		return (
 			<div className="mainContent">
-				<AppBar title="UNINETT k8 AppStore" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
+				<AppBar
+					title="UNINETT k8 AppStore"
+					iconElementRight={authMenu}
+					/>
 				<main>
 					{mainElement}
 				</main>

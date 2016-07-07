@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card, CardTitle, CardActions, CardHeader, CardText, CardMedia} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import ActionDelete from 'material-ui/svg-icons/action/delete-forever';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import AppEngineCreators from '../actions/AppEngineCreators';
@@ -9,12 +10,11 @@ class DeploymentItem extends Component {
   constructor(props, context) {
     super(props, context);
 
-    // this.handleRequestClose = this.handleRequestClose.bind(this);
-    this._actInstall = this._actInstall.bind(this);
+    this._actDelete = this._actDelete.bind(this);
+    this._actConfigure = this._actConfigure.bind(this);
 
     this.state = null;
   }
-
 
   // propTypes: {
   //   app: ReactPropTypes.object
@@ -22,17 +22,14 @@ class DeploymentItem extends Component {
 
   render() {
 
-
     const style = {
       margin: 12,
     };
 
-    console.error("Rendering DeploymentItem props is", this.props);
     var deployment = this.props.deployment
     var app = deployment.getApplication()
-    console.log("Application is ", app)
     var imageElement = null
-    if (app.thumbnail) {
+    if (app && app.thumbnail) {
       imageElement = (
         <CardMedia
         overlay={<CardTitle title={app.title} />}
@@ -42,6 +39,18 @@ class DeploymentItem extends Component {
       );
     }
 
+    if (app === null) {
+      return (
+        <Card>
+          <CardHeader
+            title={deployment.meta.title}
+            subtitle={deployment.id}
+            actAsExpander={true}
+            showExpandableButton={true}
+          />
+        </Card>
+      )
+    }
 
     return (
       <Card>
@@ -58,16 +67,24 @@ class DeploymentItem extends Component {
           <p>Price: {app.price} kr / mnd</p>
         </CardText>
         <CardActions expandable={true}>
-          <RaisedButton label="Configure" primary={true} style={style} onMouseUp={this._actInstall} />
-          <RaisedButton label="Remove" primary={true} style={style} onMouseUp={this._actInstall} />
+          <RaisedButton label="Configure (not impl)" primary={true} style={style} onMouseUp={this._actConfigure} />
+          <RaisedButton label="Remove" secondary={true} style={style} onMouseUp={this._actInstall}
+            icon={<ActionDelete  />}
+            onMouseUp={this._actDelete}
+            />
         </CardActions>
       </Card>
     );
   }
 
-  _actInstall(event, value) {
+  _actDelete(event, value) {
+    console.log("_actDelete", this.props.deployment.id);
+    AppEngineCreators.deployDelete(this.props.deployment.id);
+  }
+
+  _actConfigure(event, value) {
     // console.log("_actInstall");
-    AppEngineCreators.deploySetup(this.props.app);
+    // AppEngineCreators.deploySetup(this.props.app);
   }
 
 }

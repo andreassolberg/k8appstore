@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 
 import DeploymentItem from './DeploymentItem.react';
 import AppEngineStore from '../stores/AppEngineStore';
+import AppLibraryStore from '../stores/AppLibraryStore';
 
 function getStateFromStores() {
   return {
@@ -23,8 +24,6 @@ class DeploymentList extends Component {
   constructor(props, context) {
     super(props, context);
 
-    // this.handleRequestClose = this.handleRequestClose.bind(this);
-    // this.handleTouchTap = this.handleTouchTap.bind(this);
     this.state = getStateFromStores();
     this._onChange = this._onChange.bind(this);
   }
@@ -33,19 +32,17 @@ class DeploymentList extends Component {
   componentDidMount() {
     this._scrollToBottom();
     AppEngineStore.addChangeListener(this._onChange);
-    // MessageStore.addChangeListener(this._onChange);
-    // ThreadStore.addChangeListener(this._onChange);
+    AppLibraryStore.addChangeListener(this._onChange);
   }
 
   componentWillUnmount() {
     AppEngineStore.removeChangeListener(this._onChange);
-    // MessageStore.removeChangeListener(this._onChange);
-    // ThreadStore.removeChangeListener(this._onChange);
+    AppLibraryStore.removeChangeListener(this._onChange);
   }
 
   render() {
     // console.log("Render, state", this.state);
-    console.log("Redering deployment list ", this.state)
+    // console.log("Redering deployment list ", this.state)
     var appItems = this.state.deployments.map(getAppItem);
 
     return (

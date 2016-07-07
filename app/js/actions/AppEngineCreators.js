@@ -11,31 +11,37 @@ var AppEngineCreators = {
   deploySetup: function(app) {
 
     Dispatcher.dispatch({
-      type: ActionTypes.DEPLOY_SETUP_APP,
-      app: app
+      app,
+      type: ActionTypes.DEPLOY_SETUP_APP
     })
 
+  },
+
+  deployDelete: function(deploymentId) {
+    Dispatcher.dispatch({
+      deploymentId,
+      type: ActionTypes.DEPLOY_DELETE
+    })
+  },
+
+  deleteDeploymentSuccess: function(deploymentId) {
+    Dispatcher.dispatch({
+      deploymentId,
+      type: ActionTypes.DEPLOY_DELETE_SUCCESS
+    })
   },
 
   installApp: function(app) {
-
-    // console.log("About to dispatch ActionTypes.INSTALL_APP", app)
-
     Dispatcher.dispatch({
-      type: ActionTypes.INSTALL_APP,
-      app: app
+      app,
+      type: ActionTypes.INSTALL_APP
     })
-
-    // return API.install(deploymentConfig)
-
   },
 
   installCancel: function() {
-
     Dispatcher.dispatch({
       type: ActionTypes.INSTALL_CANCEL
     })
-
   },
 
   receiveDeploymentSuccess(deployment) {
