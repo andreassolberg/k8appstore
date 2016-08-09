@@ -14,14 +14,12 @@ import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 
 // Local components
-
 import MenuDrawer from './MenuDrawer.react'
 
 // Stores
 import NavigationStore from '../stores/NavigationStore'
 import DeploymentOptionsStore from '../stores/DeploymentOptionsStore'
 import UserContextStore from '../stores/UserContextStore'
-
 
 
 function getStateFromStores() {
@@ -82,38 +80,39 @@ class MainPageLayout extends Component {
 		// if (this.state.nav === 'deployments') {
 		// 	mainElement = <DeploymentList />;
 		// }
-// muidocs-icon-navigation-expand-more
+		// muidocs-icon-navigation-expand-more
 
 
-	var authMenu = null
-	// if (this.state.usercontext.authenticated) {
+		var authMenu = null
+		var iconButton = null;
 
-	var iconButton = (
-		<FlatButton
-      label="Andreas Åkre Solberg"
-			labelPosition="before"
-      secondary={false}
-      icon={<NavigationExpandMoreIcon />}
-    />
-	)
+		// iconButton = (
+		// 	<IconButton touch={true}>
+		// 		<p>BLah</p>
+		// 		<NavigationExpandMoreIcon />
+		// 	</IconButton>
+		// )
 
-	// iconButton = (
-	// 	<IconButton touch={true}>
-	// 		<p>BLah</p>
-	// 		<NavigationExpandMoreIcon />
-	// 	</IconButton>
-	// )
+		if (this.state.usercontext.authenticated) {
+			iconButton = (
+				<FlatButton
+		      label={this.state.usercontext.user.name}
+					labelPosition="before"
+		      secondary={false}
+		      icon={<NavigationExpandMoreIcon />}
+		    />
+			)
+			authMenu = (
+				<IconMenu
+					anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+					iconButtonElement={iconButton}
+				>
+					<MenuItem primaryText="My profile" />
+					<MenuItem primaryText="Logout" />
+				</IconMenu>
+			)
 
-
-	authMenu = (
-		<IconMenu
-			anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-			iconButtonElement={iconButton}
-		>
-			<MenuItem primaryText="My profile" />
-			<MenuItem primaryText="Logout" />
-		</IconMenu>
-	)
+		}
 
 		return (
   		<MuiThemeProvider>

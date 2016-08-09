@@ -53,7 +53,7 @@ class AppStore extends Component {
 	}
 
 	render() {
-
+		console.error("x")
 		var mainElement = null;
 		// console.error("render", this.state);
 
@@ -71,37 +71,41 @@ class AppStore extends Component {
 // muidocs-icon-navigation-expand-more
 
 
-	var authMenu = null
-	// if (this.state.usercontext.authenticated) {
+		var authMenu = null
+		var iconButton = null;
 
-	var iconButton = (
-		<FlatButton
-      label="Andreas Åkre Solberg"
-			labelPosition="before"
-      secondary={false}
-      icon={<NavigationExpandMoreIcon />}
-    />
-	)
-
-	// iconButton = (
-	// 	<IconButton touch={true}>
-	// 		<p>BLah</p>
-	// 		<NavigationExpandMoreIcon />
-	// 	</IconButton>
-	// )
+		console.error("this.state.usercontext")
 
 
-	authMenu = (
-		<IconMenu
-			anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-			iconButtonElement={iconButton}
-		>
-			<MenuItem primaryText="My profile" />
-			<MenuItem primaryText="Logout" />
-		</IconMenu>
-	)
 
-		// }
+		// iconButton = (
+		// 	<IconButton touch={true}>
+		// 		<p>BLah</p>
+		// 		<NavigationExpandMoreIcon />
+		// 	</IconButton>
+		// )
+
+		if (this.state.usercontext.authenticated) {
+			console.error("Authenticated");
+			iconButton = (
+				<FlatButton
+		      label={this.state.usercontext.user.name}
+					labelPosition="before"
+		      secondary={false}
+		      icon={<NavigationExpandMoreIcon />}
+		    />
+			)
+			authMenu = (
+				<IconMenu
+					anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+					iconButtonElement={iconButton}
+				>
+					<MenuItem primaryText="My profile" />
+					<MenuItem primaryText="Logout" />
+				</IconMenu>
+			)
+
+		}
 
 
 

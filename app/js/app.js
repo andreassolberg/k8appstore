@@ -2,6 +2,24 @@ import React from 'react'
 import {render} from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
+
+
+// window.jso = new JSO({
+//     providerID: "dataporten",
+//     client_id: "75adc2bb-1800-4f1c-abe4-bb7da7080485",
+//     redirect_uri: "http://127.0.0.1:3000/",
+//     authorization: "https://auth.dataporten.no/oauth/authorization",
+//     scopes: {}
+// });
+
+// console.log("=====> HASH", window.location.hash)
+// window.jso.callback()
+// console.log("=====^")
+
+// console.log("=====> JSO")
+// console.log(JSO)
+// console.log("=====^")
+
 import {Router, useRouterHistory} from 'react-router';
 import {
   Route,
@@ -14,6 +32,7 @@ import {createHashHistory} from 'history';
 import AppDirectory from './components/AppDirectory.react'
 import DeploymentList from './components/DeploymentList.react'
 import Install from './components/Install.react'
+import OAuthCallback from './components/OAuthCallback.react'
 
 import AppEngineStore from './stores/AppEngineStore'
 
@@ -37,6 +56,7 @@ render(
 			<Redirect from="go" to="/applications" />
 			<Route path="deployments" component={DeploymentList} />
 			<Route path="install" component={Install} />
+      <Route path="callback" component={OAuthCallback} />
 		</Route>
   </Router>
 ,
