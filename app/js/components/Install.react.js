@@ -6,12 +6,15 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import DeploymentOptionsStore from '../stores/DeploymentOptionsStore';
-import AppEngineCreators from '../actions/AppEngineCreators';
+import DeploymentOptionsStore from '../stores/DeploymentOptionsStore'
+import AppLibraryStore from '../stores/AppLibraryStore'
+import AppEngineCreators from '../actions/AppEngineCreators'
+import UserContextStore from '../stores/UserContextStore'
 
 
-function getStateFromStores() {
+function getStateFromStores(application) {
   // console.log("Getting state from stores", DeploymentOptionsStore.getOptions());
+  console.log("Get application ", application)
   return {
     options: DeploymentOptionsStore.getOptions(),
 		data: DeploymentOptionsStore.getData()
@@ -19,11 +22,18 @@ function getStateFromStores() {
   };
 }
 
+
 class Install extends Component {
 
 	constructor(props, context) {
 		super(props, context);
-		this.state = getStateFromStores();
+		this.state = getStateFromStores(this.props.params.application)
+
+    // this.props.app = getStateFromStores(this.props.params.application);
+    // console.log("State", this.state)
+    // console.log("props", props)
+
+
 
 		this._actInstallStart = this._actInstallStart.bind(this);
 		this._actCancel = this._actCancel.bind(this);
@@ -40,15 +50,13 @@ class Install extends Component {
 
   componentDidMount() {
     // this._scrollToBottom();
-    DeploymentOptionsStore.addChangeListener(this._onChange);
-    // MessageStore.addChangeListener(this._onChange);
-    // ThreadStore.addChangeListener(this._onChange);
+    DeploymentOptionsStore.addChangeListener(this._onChange)
+    AppLibraryStore.addChangeListener(this._onChange)
   }
 
   componentWillUnmount() {
-    DeploymentOptionsStore.removeChangeListener(this._onChange);
-    // MessageStore.removeChangeListener(this._onChange);
-    // ThreadStore.removeChangeListener(this._onChange);
+    DeploymentOptionsStore.removeChangeListener(this._onChange)
+    AppLibraryStore.removeChangeListener(this._onChange)
   }
 
 
@@ -56,7 +64,7 @@ class Install extends Component {
    * Event handler for 'change' events coming from the store
    */
   _onChange() {
-		console.error("Not sure what to do. Updates on DeploymentOptionsStore..")
+		console.log("Not sure what to do. Updates on DeploymentOptionsStore..")
     console.log()
     // this.setState(getStateFromStores());
   }
@@ -88,8 +96,15 @@ class Install extends Component {
 
 	_actInstallStart() {
 
+    let usercontext = UserContextStore.getContext()
+    console.log("User context is ", usercontext)
+    if (!usercontext.authenticated) {
+      throw new Error("Cannot deploy application when not authenticated")
+    }
+
+    let app = AppLibraryStore.get(this.props.params.application)
     let deploymentConfig = {
-      "application": this.state.data.app.application,
+      "application": app.application,
       "meta": {
         "title": this.state.data.title
       },
@@ -99,13 +114,14 @@ class Install extends Component {
           "domain": this.state.data.domain
         },
         "dataporten": {
-          "token": "xxx"
+          "token": usercontext.token.access_token
         }
       },
       "infrastructure": this.state.data.infrastructure,
       "size": this.state.data.size,
       "admingroup": "fc:org:uninett.no"
     }
+    console.error("About to install deployment", deploymentConfig)
     AppEngineCreators.installApp(deploymentConfig)
 
 	}
@@ -140,7 +156,16 @@ class Install extends Component {
 	}
 
 	render() {
-		var app = this.props.app
+
+    // console.error("We are rendering Install component", this.props.app )
+
+		var app = AppLibraryStore.get(this.props.params.application)
+
+    if (!app) {
+      return (
+        <div>Loading...</div>
+      )
+    }
 
 		var appnameSuggestion = 'Andreas sin ' + app.title
 		// console.log("App it is", app, this.state)

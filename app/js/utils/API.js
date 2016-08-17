@@ -96,11 +96,14 @@ var API = {
       })
   },
 
-  install(app) {
+  install(deploymentConfig) {
+
+    console.log("About to install", deploymentConfig)
+
     var opts = {
       "url": baseURL + '/deployments',
       "method": "POST",
-      "json": app
+      "json": deploymentConfig
     }
     return request(opts)
       .then((response, req) => {
@@ -146,7 +149,7 @@ var API = {
     })
     .then((results) => {
       // console.log("RESULTS", results)
-      MiscCreators.authenticationSuccess(...results)
+      MiscCreators.authenticationSuccess(...results, token)
     })
 
   },
