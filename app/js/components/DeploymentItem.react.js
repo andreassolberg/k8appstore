@@ -29,6 +29,9 @@ class DeploymentItem extends Component {
     var deployment = this.props.deployment
     var app = deployment.getApplication()
     var imageElement = null
+    var url = deployment.getURL()
+
+
     if (app && app.thumbnail) {
       imageElement = (
         <CardMedia
@@ -63,6 +66,7 @@ class DeploymentItem extends Component {
         <CardText expandable={true}>
           {imageElement}
           <p>Deployment ID <tt>{deployment.id}</tt></p>
+          <p><a target="_blank" href={url}>{url}</a></p>
           <p>{app.descr}</p>
           <p>Price: {app.price} kr / mnd</p>
         </CardText>

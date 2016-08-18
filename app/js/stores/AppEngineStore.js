@@ -24,6 +24,14 @@ class Deployment {
   getApplication() {
     return AppLibraryStore.get(this.application)
   }
+
+  getURL() {
+    let url = null
+    if (this.services && this.services.dns) {
+      url = 'http://' + this.services.dns.hostname + '.' + this.services.dns.domain
+    }
+    return url
+  }
 }
 
 
