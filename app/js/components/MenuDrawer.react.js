@@ -31,9 +31,11 @@ export default class DrawerSimpleExample extends React.Component {
     return (
       <div>
         <Drawer open={this.state.open} docked={true}>
-          <Menu value="library">
+          <Menu >
             <MenuItem primaryText="AppStore" href="/#/applications" value="library" leftIcon={<ShoppingBasket />} />
-            <MenuItem primaryText="Running Apps" href="/#/deployments" leftIcon={<Computer />} />
+            <MenuItem primaryText="Running Apps"
+              containerElement={<Link to="/deployments" />}
+              leftIcon={<Computer />} />
             <MenuItem primaryText="Billing"  leftIcon={<CreditCard />} />
             <MenuItem primaryText="UH-Sky" leftIcon={<Cloud />} />
             {/*<MenuItem linkButton={true} containerElement={<Link to="/deployments" />} primaryText="Foo" />*/}
@@ -43,3 +45,5 @@ export default class DrawerSimpleExample extends React.Component {
     );
   }
 }
+
+// href="/#/deployments"

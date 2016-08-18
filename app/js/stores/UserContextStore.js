@@ -11,7 +11,8 @@ var
   _auth = {
     "authenticated": false,
     "user": null,
-    "groups": null
+    "groups": null,
+    "token": null
   }
 
 var UserContextStore = assign({}, EventEmitter.prototype, {
@@ -50,6 +51,9 @@ UserContextStore.dispatchToken = Dispatcher.register(function(action) {
       _auth.authenticated = true
       _auth.user = action.user
       _auth.groups = action.groups
+      _auth.token = action.token
+
+      // console.log("AUTHENTICATION_SUCCESS", action)
       UserContextStore.emitChange();
       break;
 
@@ -59,5 +63,8 @@ UserContextStore.dispatchToken = Dispatcher.register(function(action) {
 
 
 });
+
+
+
 
 module.exports = UserContextStore;

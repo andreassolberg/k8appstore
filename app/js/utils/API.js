@@ -10,6 +10,9 @@ var baseURL = 'http://localhost:8080'
 var token = null;
 
 let request = function(opts) {
+
+
+
   return new Promise(function(resolve, reject) {
     requestraw(opts, (err, result, body) => {
       // console.log("Request ----- ");
@@ -31,6 +34,7 @@ let request = function(opts) {
   })
 }
 
+
 let arequest = function(opts) {
   if (!opts.headers) {
     opts.headers = {}
@@ -41,15 +45,7 @@ let arequest = function(opts) {
 
 
 
-var jso = new JSO({
-    providerID: "dataporten",
-    client_id: "75adc2bb-1800-4f1c-abe4-bb7da7080485",
-    redirect_uri: "http://127.0.0.1:3000/",
-    authorization: "https://auth.dataporten.no/oauth/authorization",
-    scopes: {}
-});
 
-jso.callback();
 
 var delayIt = function(ms) {
   return function(data) {
@@ -65,9 +61,9 @@ var API = {
 
   init() {
 
-    API.authenticate()
     API.getLibrary()
-    API.getDeployments()
+    API.authenticate()
+      .then(API.getDeployments())
 
   },
 
@@ -91,7 +87,7 @@ var API = {
       "json": true
     }
 
-    request(opts)
+    arequest(opts)
       .then((data) => {
         // console.log("receiveDeploymentsAll", data)
         // console.log("AppEngineCreators", AppEngineCreators)
@@ -100,11 +96,14 @@ var API = {
       })
   },
 
-  install(app) {
+  install(deploymentConfig) {
+
+    console.log("About to install", deploymentConfig)
+
     var opts = {
       "url": baseURL + '/deployments',
       "method": "POST",
-      "json": app
+      "json": deploymentConfig
     }
     return request(opts)
       .then((response, req) => {
@@ -135,20 +134,23 @@ var API = {
     let opts = {
 
     }
-    return jso.getToken(opts)
-      .then(function(t) {
-  			// console.log("I got the token: ", t);
-        token = t;
+    return new Promise(function(resolve, reject) {
 
-        return Promise.all([
-          API.getUserinfo(),
-          API.getGroups()
-        ])
-      })
-      .then((results) => {
-        // console.log("RESULTS", results)
-        MiscCreators.authenticationSuccess(...results)
-      })
+      window.jso.getToken((t) => {
+        token = t;
+        resolve()
+      }, opts)
+    })
+    .then(function(t) {
+      return Promise.all([
+        API.getUserinfo(),
+        API.getGroups()
+      ])
+    })
+    .then((results) => {
+      // console.log("RESULTS", results)
+      MiscCreators.authenticationSuccess(...results, token)
+    })
 
   },
 
@@ -158,9 +160,10 @@ var API = {
       "url": "https://auth.dataporten.no/userinfo",
       "json": true
     })
-      // .then((userinfo) => {
-      //   console.log("Userinfo", userinfo)
-      // })
+      .then((userinfo) => {
+        // console.log("Userinfo", userinfo)
+        return userinfo.user
+      })
   },
 
   getGroups() {
@@ -168,9 +171,10 @@ var API = {
       "url": "https://groups-api.dataporten.no/groups/me/groups",
       "json": true
     })
-      // .then((groups) => {
-      //   console.log("Groups", groups)
-      // })
+      .then((groups) => {
+        // console.log("Groups", groups)
+        return groups
+      })
   }
 
   // createMessage: function(message, threadName) {

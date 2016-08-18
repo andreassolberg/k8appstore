@@ -31,9 +31,9 @@ var AppEngineCreators = {
     })
   },
 
-  installApp: function(app) {
+  installApp: function(deploymentConfig) {
     Dispatcher.dispatch({
-      app,
+      deploymentConfig,
       type: ActionTypes.INSTALL_APP
     })
   },

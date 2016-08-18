@@ -68,7 +68,7 @@ class DeploymentItem extends Component {
         </CardText>
         <CardActions expandable={true}>
           <RaisedButton label="Configure (not impl)" primary={true} style={style} onMouseUp={this._actConfigure} />
-          <RaisedButton label="Remove" secondary={true} style={style} onMouseUp={this._actInstall}
+          <RaisedButton label="Remove" secondary={true} style={style} onMouseUp={this._actDelete}
             icon={<ActionDelete  />}
             onMouseUp={this._actDelete}
             />
@@ -83,7 +83,7 @@ class DeploymentItem extends Component {
   }
 
   _actConfigure(event, value) {
-    // console.log("_actInstall");
+    // console.log("_actConfigure");
     // AppEngineCreators.deploySetup(this.props.app);
   }
 

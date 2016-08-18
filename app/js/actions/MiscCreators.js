@@ -6,11 +6,12 @@ var ActionTypes = Constants.ActionTypes;
 
 module.exports = {
 
-  authenticationSuccess(user, group) {
+  authenticationSuccess(user, groups, token) {
     Dispatcher.dispatch({
       type: ActionTypes.AUTHENTICATION_SUCCESS,
       user: user,
-      group: group
+      groups: groups,
+      token: token
     })
   }
 
