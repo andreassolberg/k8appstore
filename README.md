@@ -3,8 +3,9 @@
 
 Run web server
 
-	NODE_ENV=development npm start | bunyan
-
+```
+NODE_ENV=development npm start | bunyan
+```
 
 Build or watch
 
