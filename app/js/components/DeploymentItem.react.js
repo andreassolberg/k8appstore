@@ -86,17 +86,16 @@ class DeploymentItem extends Component {
   }
 
   _actConfigure(event, value) {
-    console.log("About to configure deployemnt", this.props)
-    const path = "#/deloyments/" + this.props.deployment.id
-    browserHistory.push(path2)
-    // browserHistory.goForward()
-    console.log("History", this.props)
-    // browserHistory.goBack()
-    // AppEngineCreators.deploySetup(this.props.app);
-    // console.log("_actConfigure");
-    // AppEngineCreators.deploySetup(this.props.app);
+
+    const path = "/deployments/" + this.props.deployment.id
+    this.context.router.push(path)
+
   }
 
+}
+
+DeploymentItem.contextTypes = {
+    router: function() { return React.PropTypes.func.isRequired }
 }
 
 export default DeploymentItem;

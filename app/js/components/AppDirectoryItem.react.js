@@ -3,7 +3,7 @@ import {Card, CardTitle, CardActions, CardHeader, CardText, CardMedia} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router'
 
 
 import AppEngineCreators from '../actions/AppEngineCreators';
@@ -59,27 +59,23 @@ class AppDirectoryItem extends Component {
         <CardActions expandable={true}>
           <RaisedButton label="Install" primary={true} style={style} onMouseUp={this._actInstall} />
           <FlatButton label="Demo" />
+          <Link to="/deployments">Blah</Link>
         </CardActions>
+
       </Card>
     );
   }
 
   _actInstall(event, value) {
-    console.log("_actInstall", this.props.app);
-    const path = "#/applications/" + this.props.app.application + "/install"
-    const path2 = "/applications/" + this.props.app.application + "/install"
-    // console.log(this.props.router)
-    // this.props.router.transitionTo(path)
-    // this.props.router.go()
-    browserHistory.push(path)
-    browserHistory.go()
-    // console.log("History2", this.props.history)
-
-    // Router.transitionTo(path)
-
-    // AppEngineCreators.deploySetup(this.props.app);
+    const path = "/applications/" + this.props.app.application + "/install"
+    this.context.router.push(path)
   }
+
 
 }
 
-export default AppDirectoryItem;
+AppDirectoryItem.contextTypes = {
+    router: function() { return React.PropTypes.func.isRequired }
+}
+
+export default AppDirectoryItem
