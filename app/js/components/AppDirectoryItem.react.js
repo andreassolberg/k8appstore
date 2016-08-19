@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {Card, CardTitle, CardActions, CardHeader, CardText, CardMedia} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+
 import { browserHistory } from 'react-router'
+
 
 import AppEngineCreators from '../actions/AppEngineCreators';
 
@@ -65,8 +67,17 @@ class AppDirectoryItem extends Component {
   _actInstall(event, value) {
     console.log("_actInstall", this.props.app);
     const path = "#/applications/" + this.props.app.application + "/install"
+    const path2 = "/applications/" + this.props.app.application + "/install"
+    // console.log(this.props.router)
+    // this.props.router.transitionTo(path)
+    // this.props.router.go()
     browserHistory.push(path)
-    AppEngineCreators.deploySetup(this.props.app);
+    browserHistory.go()
+    // console.log("History2", this.props.history)
+
+    // Router.transitionTo(path)
+
+    // AppEngineCreators.deploySetup(this.props.app);
   }
 
 }

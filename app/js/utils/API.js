@@ -105,7 +105,7 @@ var API = {
       "method": "POST",
       "json": deploymentConfig
     }
-    return request(opts)
+    return arequest(opts)
       .then((response, req) => {
         AppEngineCreators.receiveDeploymentSuccess(response);
       })
@@ -119,7 +119,7 @@ var API = {
       "url": baseURL + '/deployments/' + deploymentId,
       "method": "DELETE"
     }
-    return request(opts)
+    return arequest(opts)
       .then((response, req) => {
         AppEngineCreators.deleteDeploymentSuccess(deploymentId);
       })

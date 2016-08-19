@@ -30,7 +30,7 @@ class DeploymentItem extends Component {
     var app = deployment.getApplication()
     var imageElement = null
     var url = deployment.getURL()
-
+    var deploymentName = deployment.infrastructure
 
     if (app && app.thumbnail) {
       imageElement = (
@@ -65,13 +65,13 @@ class DeploymentItem extends Component {
         />
         <CardText expandable={true}>
           {imageElement}
-          <p>Deployment ID <tt>{deployment.id}</tt></p>
+          <p>Deployment ID <tt>{deployment.id}</tt> running on {deploymentName}</p>
           <p><a target="_blank" href={url}>{url}</a></p>
           <p>{app.descr}</p>
           <p>Price: {app.price} kr / mnd</p>
         </CardText>
         <CardActions expandable={true}>
-          <RaisedButton label="Configure (not impl)" primary={true} style={style} onMouseUp={this._actConfigure} />
+          <RaisedButton label="Configure" primary={true} style={style} onMouseUp={this._actConfigure} />
           <RaisedButton label="Remove" secondary={true} style={style} onMouseUp={this._actDelete}
             icon={<ActionDelete  />}
             onMouseUp={this._actDelete}
@@ -82,11 +82,17 @@ class DeploymentItem extends Component {
   }
 
   _actDelete(event, value) {
-    console.log("_actDelete", this.props.deployment.id);
     AppEngineCreators.deployDelete(this.props.deployment.id);
   }
 
   _actConfigure(event, value) {
+    console.log("About to configure deployemnt", this.props)
+    const path = "#/deloyments/" + this.props.deployment.id
+    browserHistory.push(path2)
+    // browserHistory.goForward()
+    console.log("History", this.props)
+    // browserHistory.goBack()
+    // AppEngineCreators.deploySetup(this.props.app);
     // console.log("_actConfigure");
     // AppEngineCreators.deploySetup(this.props.app);
   }

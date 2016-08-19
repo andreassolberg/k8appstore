@@ -8,13 +8,16 @@ import {
   Redirect,
   IndexRedirect,
   IndexRoute,
+  browserHistory
 } from 'react-router';
+import { hashHistory } from 'react-router'
 import {createHashHistory} from 'history';
 
 // React compontents
 import AppDirectory from './components/AppDirectory.react'
 import DeploymentList from './components/DeploymentList.react'
 import Install from './components/Install.react'
+import DeploymentEditor from './components/DeploymentEditor.react'
 
 import AppEngineStore from './stores/AppEngineStore'
 
@@ -27,10 +30,13 @@ API.init();
 injectTapEventPlugin();
 
 
+const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
+
+// history={useRouterHistory(createHashHistory)({queryKey: false})}
 // <IndexRoute component={AppDirectory} />
 render(
 	<Router
-		history={useRouterHistory(createHashHistory)({queryKey: false})}
+    history={appHistory}
 		onUpdate={() => window.scrollTo(0, 0)}
   	>
 		<Route path="/" component={MainPageLayout}>
@@ -39,7 +45,10 @@ render(
         <IndexRoute  component={AppDirectory} />
         <Route path=":application/install" component={Install} />
       </Route>
-			<Route path="deployments" component={DeploymentList} />
+      <Route path="deployments">
+        <IndexRoute component={DeploymentList} />
+        <Route path=":deployment" component={DeploymentEditor} />
+      </Route>
 			<Route path="install" component={Install} />
 		</Route>
   </Router>

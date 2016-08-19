@@ -9,10 +9,8 @@ NODE_ENV=development npm start | bunyan
 
 Build or watch
 
-
 ```
 cd app
-
 watchify --debug -t [ babelify --presets [ es2015 react ] --plugins [ transform-es2015-arrow-functions ] ] js/app.js -o js/bundle.js
 ```
 
@@ -33,3 +31,5 @@ npm i
 npm install babelify -g
 npm install watchify -g
 ```
+
+Make sure you configure the app in `etc/config.js`
