@@ -42,12 +42,14 @@ class DeploymentItem extends Component {
       );
     }
 
+    var title = deployment.meta.title + ' (' + deployment.infrastructure + ')'
+
     if (app === null) {
       return (
         <Card>
           <CardHeader
-            title={deployment.meta.title}
-            subtitle={deployment.id}
+            title={title}
+            subtitle={deployment.meta.title}
             actAsExpander={true}
             showExpandableButton={true}
           />
@@ -58,7 +60,7 @@ class DeploymentItem extends Component {
     return (
       <Card>
         <CardHeader
-          title={deployment.meta.title}
+          title={title}
           subtitle={app.title}
           actAsExpander={true}
           showExpandableButton={true}

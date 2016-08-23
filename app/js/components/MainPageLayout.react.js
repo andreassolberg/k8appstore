@@ -13,6 +13,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 
+
 // Local components
 import MenuDrawer from './MenuDrawer.react'
 
@@ -86,12 +87,6 @@ class MainPageLayout extends Component {
 		var authMenu = null
 		var iconButton = null;
 
-		// iconButton = (
-		// 	<IconButton touch={true}>
-		// 		<p>BLah</p>
-		// 		<NavigationExpandMoreIcon />
-		// 	</IconButton>
-		// )
 
 		if (this.state.usercontext.authenticated) {
 			iconButton = (
@@ -129,7 +124,7 @@ class MainPageLayout extends Component {
 
   					<footer className="page-footer">
   						<div className="footer-copyright">
-  							<div className="container">
+  							<div className="container" >
   								UNINETT © 2016
   								<a className="grey-text text-lighten-4 right" href="https://github.com/Dogfalo/materialize/blob/master/LICENSE">MIT License</a>
   							</div>
