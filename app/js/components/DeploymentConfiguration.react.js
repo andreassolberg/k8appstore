@@ -97,7 +97,7 @@ class DeploymentConfiguration extends Component {
     var state = {}
 
     state.application = this.props.deploymentConfiguration.application || null
-    state.title = this.props.deploymentConfiguration.title || ""
+    state.title = this.props.deploymentConfiguration.meta.title || ""
 
     state.size = this.props.deploymentConfiguration.size || "small"
     state.infrastructure = this.props.deploymentConfiguration.infrastructure || "gke"
@@ -111,7 +111,7 @@ class DeploymentConfiguration extends Component {
 
     var config = {};
     config.application = this.props.deploymentConfiguration.application
-    if (this.state.title !== this.props.deploymentConfiguration.title) config.title = this.state.title
+    if (this.state.title !== this.props.deploymentConfiguration.meta.title) config.title = this.state.title
 
     if (this.state.size !== this.props.deploymentConfiguration.size) config.size = this.state.size
     if (this.state.infrastructure !== this.props.deploymentConfiguration.infrastructure) config.infrastructure = this.state.infrastructure
