@@ -53,7 +53,7 @@ var AppEngineCreators = {
   receiveDeploymentFailed(err) {
     Dispatcher.dispatch({
       type: ActionTypes.RECEIVE_DEPLOYMENT_FAILED,
-      error: deployments
+      error: err
     })
   },
 

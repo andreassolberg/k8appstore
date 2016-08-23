@@ -7,10 +7,10 @@ var
   EventEmitter = require('events').EventEmitter,
   API = require('../utils/API')
 
-var assign = require('object-assign');
+var assign = require('object-assign')
 
-var ActionTypes = Constants.ActionTypes;
-var CHANGE_EVENT = 'change';
+var ActionTypes = Constants.ActionTypes
+var CHANGE_EVENT = 'change'
 
 var _deployments = {}
 
@@ -36,7 +36,7 @@ class Deployment {
 
 
 function _addDeployment(item) {
-  _deployments[item.id] = new Deployment(item);
+  _deployments[item.id] = new Deployment(item)
 }
 
 function _addDeployments(items) {
@@ -60,22 +60,22 @@ var AppEngineStore = assign({}, EventEmitter.prototype, {
    * @param {function} callback
    */
   addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
+    this.on(CHANGE_EVENT, callback)
   },
 
   removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+    this.removeListener(CHANGE_EVENT, callback)
   },
 
   get: function(id) {
-    return _deployments[id];
+    return _deployments[id]
   },
 
   /**
    * @param {string} threadID
    */
   getAll: function() {
-    return _deployments;
+    return _deployments
   },
 
   getAllList: function() {
@@ -94,23 +94,21 @@ var AppEngineStore = assign({}, EventEmitter.prototype, {
 
 AppEngineStore.dispatchToken = Dispatcher.register(function(action) {
 
-
-
   switch(action.type) {
 
     case ActionTypes.RECEIVE_DEPLOYMENT_SUCCESS:
-      _addApp(action.deployment);
-      AppEngineStore.emitChange();
+      _addDeployment(action.deployment)
+      AppEngineStore.emitChange()
       break
 
     case ActionTypes.RECEIVE_DEPLOYMENTS_ALL:
-      _addDeployments(action.deployments);
-      AppEngineStore.emitChange();
+      _addDeployments(action.deployments)
+      AppEngineStore.emitChange()
       break
 
-    case ActionTypes.INSTALL_APP:
-      API.install(action.deploymentConfig)
-      break
+    // case ActionTypes.INSTALL_APP:
+    //   API.install(action.deploymentConfig)
+    //   break
 
     case ActionTypes.DEPLOY_DELETE:
 
@@ -119,9 +117,8 @@ AppEngineStore.dispatchToken = Dispatcher.register(function(action) {
 
     case ActionTypes.DEPLOY_DELETE_SUCCESS:
       _removeDeployment(action.deploymentId)
-      AppEngineStore.emitChange();
+      AppEngineStore.emitChange()
       break
-
 
     case ActionTypes.RECEIVE_DEPLOYMENT_SUCCESS:
 
@@ -134,4 +131,4 @@ AppEngineStore.dispatchToken = Dispatcher.register(function(action) {
 
 });
 
-module.exports = AppEngineStore;
+module.exports = AppEngineStore

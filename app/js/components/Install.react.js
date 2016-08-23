@@ -11,6 +11,7 @@ import AppLibraryStore from '../stores/AppLibraryStore'
 import AppEngineCreators from '../actions/AppEngineCreators'
 import UserContextStore from '../stores/UserContextStore'
 
+import API from '../utils/API'
 
 function getStateFromStores(application) {
   // console.log("Getting state from stores", DeploymentOptionsStore.getOptions());
@@ -28,12 +29,6 @@ class Install extends Component {
 	constructor(props, context) {
 		super(props, context);
 		this.state = getStateFromStores(this.props.params.application)
-
-    // this.props.app = getStateFromStores(this.props.params.application);
-    // console.log("State", this.state)
-    // console.log("props", props)
-
-
 
 		this._actInstallStart = this._actInstallStart.bind(this);
 		this._actCancel = this._actCancel.bind(this);
@@ -122,7 +117,20 @@ class Install extends Component {
       "admingroup": "fc:org:uninett.no"
     }
     console.error("About to install deployment", deploymentConfig)
-    AppEngineCreators.installApp(deploymentConfig)
+    // AppEngineCreators.installApp(deploymentConfig)
+
+    API.install(deploymentConfig)
+      .then((deployment) => {
+
+        console.log("YAY1", deployment)
+        const path = "/deployments/" + deployment.id
+        this.context.router.push(path)
+        console.log("YAY2")
+      })
+      .catch((err) => {
+        console.error("Error deploying app", err)
+        // alert("Error deploying application...")
+      })
 
 	}
 
@@ -167,7 +175,7 @@ class Install extends Component {
       )
     }
 
-		var appnameSuggestion = 'Andreas sin ' + app.title
+		var appnameSuggestion = 'Min ' + app.title
 		// console.log("App it is", app, this.state)
 
 		var infraOptions = []
@@ -194,7 +202,8 @@ class Install extends Component {
 					<form className="">
 
 						<div className="section">
-							<h2>Basic info</h2>
+              <h1>Installing new deployment of {app.title}</h1>
+
 
 							<TextField
                 value={this.state.data.title}
@@ -260,9 +269,9 @@ class Install extends Component {
 		);
 	}
 }
-// console.log("ReactPropTypes", ReactPropTypes);
-// Install.propTypes = {
-//     app: ReactPropTypes.object
-// };
+
+Install.contextTypes = {
+    router: function() { return React.PropTypes.func.isRequired }
+}
 
 export default Install;

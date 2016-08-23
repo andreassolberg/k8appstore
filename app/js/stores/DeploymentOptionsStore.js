@@ -24,7 +24,7 @@ var _infraOptions = {
 		"title": "Google Cloud",
 		"descr": ""
 	}
-};
+}
 
 const _domains = ["apps.uninett-labs.no", "uhapps.no", "apps.sigma.no"]
 
