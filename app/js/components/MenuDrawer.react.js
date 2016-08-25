@@ -28,16 +28,21 @@ export default class DrawerSimpleExample extends React.Component {
   }
 
   render() {
+    var s = {
+      color: "red !important" // cannot make this work #$%$#%
+    }
     return (
       <div>
         <Drawer open={this.state.open} docked={true}>
           <Menu >
             <MenuItem primaryText="AppStore" href="/#/applications" value="library" leftIcon={<ShoppingBasket />} />
             <MenuItem primaryText="Running Apps"
-              containerElement={<Link to="/deployments" />}
+              linkButton={true}
+              containerElement={<Link activeStyle={s} to="/deployments" />}
               leftIcon={<Computer />} />
             <MenuItem primaryText="Billing"  leftIcon={<CreditCard />} />
             <MenuItem primaryText="UH-Sky" leftIcon={<Cloud />} />
+
             {/*<MenuItem linkButton={true} containerElement={<Link to="/deployments" />} primaryText="Foo" />*/}
           </Menu>
         </Drawer>

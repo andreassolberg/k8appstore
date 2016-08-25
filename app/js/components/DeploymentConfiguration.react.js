@@ -110,6 +110,7 @@ class DeploymentConfiguration extends Component {
   getUpdate() {
 
     var config = {};
+		config.id = this.props.deploymentConfiguration.id
     config.application = this.props.deploymentConfiguration.application
     if (this.state.title !== this.props.deploymentConfiguration.meta.title) config.title = this.state.title
 
@@ -139,26 +140,31 @@ class DeploymentConfiguration extends Component {
   }
 
 	_onChangeInfra(event, value) {
+		event.stopPropagation()
 		this.state.infrastructure = event.target.value
 		this.setState(this.state)
     // console.log("Change infra", JSON.stringify(this.state.data, undefined, 2))
 	}
 	_onChangeSize(event, value) {
+		event.stopPropagation()
 		this.state.size = event.target.value
 		this.setState(this.state)
 	}
 	_onChangeDomain(event, index, value) {
+		event.stopPropagation()
 		// console.log("On change domain", event, index, value);
 		this.state.domain = value
 		this.setState(this.state)
 	}
 
   _onChangeTitle(event, value) {
+		event.stopPropagation()
     this.state.title = value
     this.setState(this.state)
   }
 
   _onChangeHostname(event, value) {
+		event.stopPropagation()
     this.state.hostname = value
     this.setState(this.state)
   }

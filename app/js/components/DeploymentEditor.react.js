@@ -5,6 +5,8 @@ import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import {Tabs, Tab} from 'material-ui/Tabs';
+// import {Card, CardTitle, CardActions, CardHeader, CardText, CardMedia} from 'material-ui/Card';
 
 // import DeploymentOptionsStore from '../stores/DeploymentOptionsStore'
 import AppEngineStore from '../stores/AppEngineStore'
@@ -12,6 +14,7 @@ import AppEngineCreators from '../actions/AppEngineCreators'
 import UserContextStore from '../stores/UserContextStore'
 
 import DeploymentConfiguration from './DeploymentConfiguration.react'
+import API from '../utils/API'
 
 
 // function getStateFromStores(application) {
@@ -29,12 +32,15 @@ class DeploymentEditor extends Component {
 
 	constructor(props, context) {
 		super(props, context);
-		this.state = {}
+		this.state = {
+			"tabValue": "status"
+		}
     this.dconfigurator = null
 
     this._actSaveChanges = this._actSaveChanges.bind(this)
+		this._tabChange = this._tabChange.bind(this)
+		this._onChange = this._onChange.bind(this)
 		this._actReset = this._actReset.bind(this)
-
 
   }
 
@@ -75,35 +81,27 @@ class DeploymentEditor extends Component {
     }
 
     let deploymentConfig = this.refs.dconfigurator.getUpdate()
-    deploymentConfig.services.dataporten = {
-      "token": usercontext.token.access_token
-    }
+		if (deploymentConfig.services && deploymentConfig.services.dataporten) {
+			deploymentConfig.services.dataporten = {
+	      "token": usercontext.token.access_token
+	    }
+		}
 
-    console.error("UPDATE IS", deploymentConfig)
+    console.error("UPDATE IS", JSON.stringify(deploymentConfig, undefined, 2))
 
+		API.update(deploymentConfig)
+      .then((deployment) => {
 
+        console.log("YAY1 updated!", deployment)
+        // const path = "/deployments/" + deployment.id
+        // this.context.router.push(path)
+        console.log("YAY2")
+      })
+      .catch((err) => {
+        console.error("Error deploying app", err)
+        // alert("Error deploying application...")
+      })
 
-
-    // let deploymentConfig = {
-    //   "application": app.application,
-    //   "meta": {
-    //     "title": this.state.data.title
-    //   },
-    //   "services": {
-    //     "dns": {
-    //       "hostname": this.state.data.hostname,
-    //       "domain": this.state.data.domain
-    //     },
-    //     "dataporten": {
-    //       "token": usercontext.token.access_token
-    //     }
-    //   },
-    //   "infrastructure": this.state.data.infrastructure,
-    //   "size": this.state.data.size,
-    //   "admingroup": "fc:org:uninett.no"
-    // }
-    console.error("About to install deployment", deploymentConfig)
-    AppEngineCreators.updateApp(deploymentConfig)
 
 	}
 
@@ -112,6 +110,14 @@ class DeploymentEditor extends Component {
     console.error("RESET!")
 	}
 
+	_tabChange(value) {
+		if (typeof value === 'string') {
+			console.log("tab change!", value)
+			this.setState({
+				"tabValue": value
+			})
+		}
+	}
 
 	render() {
 
@@ -121,6 +127,7 @@ class DeploymentEditor extends Component {
 		var deploymentConfiguration = AppEngineStore.get(this.props.params.deployment)
 
     console.log("this.props.params.deployment", this.props.params.deployment, deploymentConfiguration)
+		console.log("STATE", JSON.stringify(this.state, undefined, 3))
 
     if (!deploymentConfiguration) {
       return (
@@ -128,16 +135,46 @@ class DeploymentEditor extends Component {
       )
     }
 
+		const styles = {
+		  headline: {
+		    fontSize: 24,
+		    paddingTop: 16,
+		    marginBottom: 12,
+		    fontWeight: 400,
+		  }
+		}
 
 		return (
-	    <div>
-          <p>Editing existing deployment {deploymentConfiguration.id}.</p>
+			<Tabs
+        value={this.state.tabValue}
+        onChange={this._tabChange}
+      >
+			<Tab label="Status" value="status">
+				<div>
+					<p>
+						This is another example of a controllable tab. Remember, if you
+						use controllable Tabs, you need to give all of your tabs values or else
+						you wont be able to select them.
+					</p>
+				</div>
+			</Tab>
+			<Tab label="Configure deployment" value="configure" >
+				<div>
+					<p>Editing existing deployment {deploymentConfiguration.id}.</p>
           <DeploymentConfiguration ref="dconfigurator" deploymentConfiguration={deploymentConfiguration} />
           <div>
               <RaisedButton label="Save changes" primary={true} onMouseUp={this._actSaveChanges} />
               <FlatButton label="Reset" secondary={true} onMouseUp={this._actReset} />
           </div>
-      </div>
+				</div>
+			</Tab>
+			<Tab label="Application info" value="appinfo">
+				<div>
+					<p>Application {deploymentConfiguration.application}.</p>
+				</div>
+			</Tab>
+
+      </Tabs>
 		);
 	}
 }

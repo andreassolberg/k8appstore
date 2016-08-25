@@ -113,6 +113,23 @@ var API = {
       // })
   },
 
+  update(deploymentConfig) {
+    console.log("About to update", deploymentConfig)
+    if (!deploymentConfig.id) {
+      throw new Error("Cannot update deployment if identifier is unspecified.")
+    }
+    var opts = {
+      "url": baseURL + '/deployments/' + deploymentConfig.id,
+      "method": "PATCH",
+      "json": deploymentConfig
+    }
+    return arequest(opts)
+      .then((response, req) => {
+        AppEngineCreators.receiveDeploymentSuccess(response);
+        return response
+      })
+  },
+
   deploymentDelete(deploymentId) {
     var opts = {
       "url": baseURL + '/deployments/' + deploymentId,
