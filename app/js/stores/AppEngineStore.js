@@ -106,15 +106,6 @@ AppEngineStore.dispatchToken = Dispatcher.register(function(action) {
       AppEngineStore.emitChange()
       break
 
-    // case ActionTypes.INSTALL_APP:
-    //   API.install(action.deploymentConfig)
-    //   break
-
-    case ActionTypes.DEPLOY_DELETE:
-
-      API.deploymentDelete(action.deploymentId)
-      break
-
     case ActionTypes.DEPLOY_DELETE_SUCCESS:
       _removeDeployment(action.deploymentId)
       AppEngineStore.emitChange()

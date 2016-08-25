@@ -130,9 +130,9 @@ var API = {
       })
   },
 
-  deploymentDelete(deploymentId) {
+  deploymentDelete(deploymentId, token) {
     var opts = {
-      "url": baseURL + '/deployments/' + deploymentId,
+      "url": baseURL + '/deployments/' + deploymentId + '?token=' + token,
       "method": "DELETE"
     }
     return arequest(opts)

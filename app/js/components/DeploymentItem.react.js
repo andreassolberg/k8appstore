@@ -3,8 +3,7 @@ import {Card, CardTitle, CardActions, CardHeader, CardText, CardMedia} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete-forever';
 import RaisedButton from 'material-ui/RaisedButton';
-
-import AppEngineCreators from '../actions/AppEngineCreators';
+import API from '../utils/API'
 
 class DeploymentItem extends Component {
   constructor(props, context) {
@@ -16,15 +15,23 @@ class DeploymentItem extends Component {
     this.state = null;
   }
 
-  // propTypes: {
-  //   app: ReactPropTypes.object
-  // },
+  _actDelete(event, value) {
+    API.deploymentDelete(this.props.deployment.id, this.props.token)
+
+  }
+
+  _actConfigure(event, value) {
+
+    const path = "/deployments/" + this.props.deployment.id
+    this.context.router.push(path)
+
+  }
 
   render() {
 
     const style = {
       margin: 12,
-    };
+    }
 
     var deployment = this.props.deployment
     var app = deployment.getApplication()
@@ -81,17 +88,6 @@ class DeploymentItem extends Component {
         </CardActions>
       </Card>
     );
-  }
-
-  _actDelete(event, value) {
-    AppEngineCreators.deployDelete(this.props.deployment.id);
-  }
-
-  _actConfigure(event, value) {
-
-    const path = "/deployments/" + this.props.deployment.id
-    this.context.router.push(path)
-
   }
 
 }

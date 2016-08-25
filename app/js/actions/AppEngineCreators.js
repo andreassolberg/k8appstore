@@ -17,12 +17,6 @@ var AppEngineCreators = {
 
   },
 
-  deployDelete: function(deploymentId) {
-    Dispatcher.dispatch({
-      deploymentId,
-      type: ActionTypes.DEPLOY_DELETE
-    })
-  },
 
   deleteDeploymentSuccess: function(deploymentId) {
     Dispatcher.dispatch({
@@ -31,12 +25,6 @@ var AppEngineCreators = {
     })
   },
 
-  installApp: function(deploymentConfig) {
-    Dispatcher.dispatch({
-      deploymentConfig,
-      type: ActionTypes.INSTALL_APP
-    })
-  },
 
   installCancel: function() {
     Dispatcher.dispatch({

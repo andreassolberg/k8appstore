@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 
 import DeploymentItem from './DeploymentItem.react';
 import AppEngineStore from '../stores/AppEngineStore';
+import UserContextStore from '../stores/UserContextStore'
 import AppLibraryStore from '../stores/AppLibraryStore';
 
 function getStateFromStores() {
@@ -12,10 +13,17 @@ function getStateFromStores() {
 }
 
 function getAppItem(deployment) {
+  let usercontext = UserContextStore.getContext()
+  if (!usercontext.authenticated) {
+    return null
+  }
+  
+
   return (
     <DeploymentItem
       key={deployment.id}
       deployment={deployment}
+      token={usercontext.token.access_token}
     />
   )
 }
@@ -33,11 +41,13 @@ class DeploymentList extends Component {
     this._scrollToBottom();
     AppEngineStore.addChangeListener(this._onChange);
     AppLibraryStore.addChangeListener(this._onChange);
+    UserContextStore.addChangeListener(this._onChange);
   }
 
   componentWillUnmount() {
     AppEngineStore.removeChangeListener(this._onChange);
     AppLibraryStore.removeChangeListener(this._onChange);
+    UserContextStore.removeChangeListener(this._onChange);
   }
 
   render() {
