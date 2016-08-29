@@ -136,7 +136,7 @@ class DeploymentConfiguration extends Component {
   }
 
   _onChange() {
-    console.log("- changed.")
+    // console.log("- changed.")
   }
 
 	_onChangeInfra(event, value) {
@@ -264,8 +264,8 @@ class DeploymentConfiguration extends Component {
 		})
 
 		// console.log("Render Install, state is", this.state);
-    console.log("Props", this.props)
-    console.log("State", this.state)
+    // console.log("Props", this.props)
+    // console.log("State", this.state)
 
 
 		return (

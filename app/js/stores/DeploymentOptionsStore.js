@@ -26,7 +26,7 @@ var _infraOptions = {
 	}
 }
 
-const _domains = ["apps.uninett-labs.no", "uhapps.no", "apps.sigma.no"]
+const _domains = ["apps.uninett-labs.no", "daas.sigma.no"]
 
 const _sizes =  {
 	"tiny": {

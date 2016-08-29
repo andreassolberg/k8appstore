@@ -42,9 +42,6 @@ let arequest = function(opts) {
 }
 
 
-
-
-
 var delayIt = function(ms) {
   return function(data) {
     return new Promise(function(resolve, reject) {
@@ -93,6 +90,23 @@ var API = {
         AppEngineCreators.receiveDeploymentsAll(data);
       })
   },
+
+  getDeploymentStatus(id) {
+    let opts = {
+      "url": baseURL + '/deployments/' + id + '/status',
+      "json": true
+    }
+
+    return arequest(opts)
+      // .then((data) => {
+      //   // console.log("receiveDeploymentsAll", data)
+      //   // console.log("AppEngineCreators", AppEngineCreators)
+      //   // console.log("AppLibraryCreators", AppLibraryCreators)
+      //   console.log("GOT DATA", data)
+      //   return data
+      // })
+  },
+
 
   install(deploymentConfig) {
 

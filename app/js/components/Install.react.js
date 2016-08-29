@@ -33,7 +33,7 @@ class Install extends Component {
 		this._actInstallStart = this._actInstallStart.bind(this);
 		this._actCancel = this._actCancel.bind(this);
 
-		this._onChange = this._onChange.bind(this);
+		this._onChange = this._onChange.bind(this)
 		this._onChangeInfra = this._onChangeInfra.bind(this);
 		this._onChangeSize = this._onChangeSize.bind(this);
 		this._onChangeDomain = this._onChangeDomain.bind(this);
@@ -66,6 +66,11 @@ class Install extends Component {
 
 	_onChangeInfra(event, value) {
 		this.state.data.infrastructure = event.target.value
+    if (this.state.data.infrastructure === 'gke') {
+      this.state.data.domain = 'apps.uninett-labs.no'
+    } else if (this.state.data.infrastructure === 'sigma') {
+      this.state.data.domain = 'daas.sigma.no'
+    }
 		this.setState(this.state)
     // console.log("Change infra", JSON.stringify(this.state.data, undefined, 2))
 	}
@@ -218,7 +223,7 @@ class Install extends Component {
                 value={this.state.data.hostname}
                 onChange={this._onChangeHostname}
 							/>
-							<SelectField value={this.state.data.domain} onChange={this._onChangeDomain}>
+							<SelectField disabled={true}  value={this.state.data.domain} onChange={this._onChangeDomain}>
 			          {domainOptions}
 			        </SelectField>
 						</div>

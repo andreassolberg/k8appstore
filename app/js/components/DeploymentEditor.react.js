@@ -12,8 +12,11 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 import AppEngineStore from '../stores/AppEngineStore'
 import AppEngineCreators from '../actions/AppEngineCreators'
 import UserContextStore from '../stores/UserContextStore'
+import DeploymentStatusStore from '../stores/DeploymentStatusStore'
 
 import DeploymentConfiguration from './DeploymentConfiguration.react'
+import DeploymentStatus from './DeploymentStatus.react'
+
 import API from '../utils/API'
 
 
@@ -45,8 +48,8 @@ class DeploymentEditor extends Component {
   }
 
   componentWillMount() {
-    console.error("We are about to launch the DeploymentEditor...")
-    console.log("this.props.params.deployment", this.props.params.deployment)
+    // console.error("We are about to launch the DeploymentEditor...")
+    // console.log("this.props.params.deployment", this.props.params.deployment)
 
   }
 
@@ -54,11 +57,13 @@ class DeploymentEditor extends Component {
     // this._scrollToBottom();
     // DeploymentOptionsStore.addChangeListener(this._onChange)
     AppEngineStore.addChangeListener(this._onChange)
+		DeploymentStatusStore.addChangeListener(this._onChange)
   }
 
   componentWillUnmount() {
     // DeploymentOptionsStore.removeChangeListener(this._onChange)
     AppEngineStore.removeChangeListener(this._onChange)
+		DeploymentStatusStore.removeChangeListener(this._onChange)
   }
 
 
@@ -67,15 +72,15 @@ class DeploymentEditor extends Component {
    * Event handler for 'change' events coming from the store
    */
   _onChange() {
-		console.log("Not sure what to do. Updates on DeploymentOptionsStore..")
-    console.log()
+		// console.log("Not sure what to do. Updates on DeploymentOptionsStore..")
+    // console.log()
     // this.setState(getStateFromStores());
   }
 
 	_actSaveChanges() {
-    console.error("---")
+    // console.error("---")
     let usercontext = UserContextStore.getContext()
-    console.log("User context is ", usercontext)
+    // console.log("User context is ", usercontext)
     if (!usercontext.authenticated) {
       throw new Error("Cannot deploy application when not authenticated")
     }
@@ -87,18 +92,18 @@ class DeploymentEditor extends Component {
 	    }
 		}
 
-    console.error("UPDATE IS", JSON.stringify(deploymentConfig, undefined, 2))
+    // console.error("UPDATE IS", JSON.stringify(deploymentConfig, undefined, 2))
 
 		API.update(deploymentConfig)
       .then((deployment) => {
 
-        console.log("YAY1 updated!", deployment)
+        // console.log("YAY1 updated!", deployment)
         // const path = "/deployments/" + deployment.id
         // this.context.router.push(path)
-        console.log("YAY2")
+        // console.log("YAY2")
       })
       .catch((err) => {
-        console.error("Error deploying app", err)
+        // console.error("Error deploying app", err)
         // alert("Error deploying application...")
       })
 
@@ -107,12 +112,12 @@ class DeploymentEditor extends Component {
 
 	_actReset() {
     // AppEngineCreators.installCancel()
-    console.error("RESET!")
+    // console.error("RESET!")
 	}
 
 	_tabChange(value) {
 		if (typeof value === 'string') {
-			console.log("tab change!", value)
+			// console.log("tab change!", value)
 			this.setState({
 				"tabValue": value
 			})
@@ -126,8 +131,8 @@ class DeploymentEditor extends Component {
 
 		var deploymentConfiguration = AppEngineStore.get(this.props.params.deployment)
 
-    console.log("this.props.params.deployment", this.props.params.deployment, deploymentConfiguration)
-		console.log("STATE", JSON.stringify(this.state, undefined, 3))
+    // console.log("this.props.params.deployment", this.props.params.deployment, deploymentConfiguration)
+		// console.log("STATE", JSON.stringify(this.state, undefined, 3))
 
     if (!deploymentConfiguration) {
       return (
@@ -149,30 +154,32 @@ class DeploymentEditor extends Component {
         value={this.state.tabValue}
         onChange={this._tabChange}
       >
-			<Tab label="Status" value="status">
-				<div>
-					<p>
-						This is another example of a controllable tab. Remember, if you
-						use controllable Tabs, you need to give all of your tabs values or else
-						you wont be able to select them.
-					</p>
-				</div>
-			</Tab>
-			<Tab label="Configure deployment" value="configure" >
-				<div>
-					<p>Editing existing deployment {deploymentConfiguration.id}.</p>
-          <DeploymentConfiguration ref="dconfigurator" deploymentConfiguration={deploymentConfiguration} />
-          <div>
-              <RaisedButton label="Save changes" primary={true} onMouseUp={this._actSaveChanges} />
-              <FlatButton label="Reset" secondary={true} onMouseUp={this._actReset} />
-          </div>
-				</div>
-			</Tab>
-			<Tab label="Application info" value="appinfo">
-				<div>
-					<p>Application {deploymentConfiguration.application}.</p>
-				</div>
-			</Tab>
+				<Tab label="Status" value="status">
+					<DeploymentStatus deploymentConfiguration={deploymentConfiguration} deploymentId={deploymentConfiguration.id} />
+				</Tab>
+				<Tab label="Configure deployment" value="configure" >
+					<div>
+						<p>Editing existing deployment {deploymentConfiguration.id}.</p>
+	          <DeploymentConfiguration ref="dconfigurator" deploymentConfiguration={deploymentConfiguration} />
+	          <div>
+	              <RaisedButton label="Save changes" primary={true} onMouseUp={this._actSaveChanges} />
+	              <FlatButton label="Reset" secondary={true} onMouseUp={this._actReset} />
+	          </div>
+					</div>
+				</Tab>
+				<Tab label="Application info" value="appinfo">
+					<div>
+						<p>Application {deploymentConfiguration.application}.</p>
+					</div>
+				</Tab>
+				<Tab label="Delete" value="delete">
+					<div>
+						<p>Are you sure you would like to delete your installed application <strong>{deploymentConfiguration.application}</strong>,
+							named <strong>{deploymentConfiguration.meta.title}</strong>?</p>
+						<RaisedButton label="Delete your deployment" secondary={true} onMouseUp={this._actDelete} />
+						<p></p>
+					</div>
+				</Tab>
 
       </Tabs>
 		);
