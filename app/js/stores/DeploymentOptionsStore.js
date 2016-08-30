@@ -10,11 +10,13 @@ var CHANGE_EVENT = 'change';
 var _infraOptions = {
 	"ipnett": {
 		"title": "IPnett",
-		"descr": ""
+		"descr": "",
+		"disabled": true
 	},
 	"uhintern": {
 		"title": "UH-intern IaaS",
-		"descr": ""
+		"descr": "",
+		"disabled": true
 	},
 	"sigma": {
 		"title": "Sigma sky",
@@ -30,19 +32,19 @@ const _domains = ["apps.uninett-labs.no", "daas.sigma.no"]
 
 const _sizes =  {
 	"tiny": {
-		"title": "Tiny (.2 core, 128M)"
+		"title": "Tiny"
 	},
 	"small": {
-		"title": "Small (.5 core, 128M)"
+		"title": "Small"
 	},
 	"medium": {
-		"title": "Medium (2x .5 core, 128M)"
+		"title": "Medium"
 	},
 	"large": {
-		"title": "Large (3x .5 core, 256M)"
+		"title": "Large"
 	},
 	"xlarge": {
-		"title": "X-Large (3x 1 core, 256M)"
+		"title": "X-Large"
 	}
 }
 

@@ -20,15 +20,13 @@ import DeploymentStatus from './DeploymentStatus.react'
 import API from '../utils/API'
 
 
-// function getStateFromStores(application) {
-//   // console.log("Getting state from stores", DeploymentOptionsStore.getOptions());
-//   console.log("Get application ", application)
-//   return {
-//     options: DeploymentOptionsStore.getOptions(),
-// 		data: DeploymentOptionsStore.getData()
-//     // thread: ThreadStore.getCurrent()
-//   };
-// }
+function getStateFromStores() {
+  return {
+    // options: DeploymentOptionsStore.getOptions(),
+		// data: DeploymentOptionsStore.getData(),
+    usercontext: UserContextStore.getContext()
+  };
+}
 
 
 class DeploymentEditor extends Component {
@@ -44,6 +42,7 @@ class DeploymentEditor extends Component {
 		this._tabChange = this._tabChange.bind(this)
 		this._onChange = this._onChange.bind(this)
 		this._actReset = this._actReset.bind(this)
+		this._actDelete = this._actDelete.bind(this)
 
   }
 
@@ -55,13 +54,13 @@ class DeploymentEditor extends Component {
 
   componentDidMount() {
     // this._scrollToBottom();
-    // DeploymentOptionsStore.addChangeListener(this._onChange)
+    UserContextStore.addChangeListener(this._onChange)
     AppEngineStore.addChangeListener(this._onChange)
 		DeploymentStatusStore.addChangeListener(this._onChange)
   }
 
   componentWillUnmount() {
-    // DeploymentOptionsStore.removeChangeListener(this._onChange)
+    UserContextStore.removeChangeListener(this._onChange)
     AppEngineStore.removeChangeListener(this._onChange)
 		DeploymentStatusStore.removeChangeListener(this._onChange)
   }
@@ -71,11 +70,9 @@ class DeploymentEditor extends Component {
   /**
    * Event handler for 'change' events coming from the store
    */
-  _onChange() {
-		// console.log("Not sure what to do. Updates on DeploymentOptionsStore..")
-    // console.log()
-    // this.setState(getStateFromStores());
-  }
+	_onChange() {
+		this.setState(getStateFromStores());
+	}
 
 	_actSaveChanges() {
     // console.error("---")
@@ -97,10 +94,10 @@ class DeploymentEditor extends Component {
 		API.update(deploymentConfig)
       .then((deployment) => {
 
-        // console.log("YAY1 updated!", deployment)
-        // const path = "/deployments/" + deployment.id
-        // this.context.router.push(path)
-        // console.log("YAY2")
+				this.setState({
+					"tabValue": "status"
+				})
+
       })
       .catch((err) => {
         // console.error("Error deploying app", err)
@@ -108,6 +105,16 @@ class DeploymentEditor extends Component {
       })
 
 
+	}
+
+	_actDelete() {
+		// console.error("DELETE", this.props.params.deployment, this.state.usercontext.token.access_token)
+		// return
+		API.deploymentDelete(this.props.params.deployment, this.state.usercontext.token.access_token)
+			.then(() => {
+				const path = "/deployments/"
+        this.context.router.push(path)
+			})
 	}
 
 	_actReset() {
@@ -185,6 +192,11 @@ class DeploymentEditor extends Component {
 		);
 	}
 }
+
+DeploymentEditor.contextTypes = {
+    router: function() { return React.PropTypes.func.isRequired }
+}
+
 // console.log("ReactPropTypes", ReactPropTypes);
 // Install.propTypes = {
 //     app: ReactPropTypes.object

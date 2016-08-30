@@ -9,27 +9,25 @@ import MenuItem from 'material-ui/MenuItem';
 // import DeploymentOptionsStore from '../stores/DeploymentOptionsStore'
 import AppLibraryStore from '../stores/AppLibraryStore'
 import AppEngineCreators from '../actions/AppEngineCreators'
-import UserContextStore from '../stores/UserContextStore'
+// import UserContextStore from '../stores/UserContextStore'
 
-
-// function getStateFromStores(application) {
-//   console.log("Get application ", application)
-//   return {
-//     options: DeploymentOptionsStore.getOptions(),
-// 		data: DeploymentOptionsStore.getData()
-//   }
-// }
-
-
+function getStateFromStores() {
+  return {
+    // usercontext: UserContextStore.getContext()
+		// data: DeploymentOptionsStore.getData()
+  }
+}
 
 var _infraOptions = {
 	"ipnett": {
 		"title": "IPnett",
-		"descr": ""
+		"descr": "",
+		"disabled": true
 	},
 	"uhintern": {
 		"title": "UH-intern IaaS",
-		"descr": ""
+		"descr": "",
+		"disabled": true
 	},
 	"sigma": {
 		"title": "Sigma sky",
@@ -41,23 +39,23 @@ var _infraOptions = {
 	}
 }
 
-const _domains = ["apps.uninett-labs.no", "uhapps.no", "apps.sigma.no"]
+const _domains = ["apps.uninett-labs.no", "daas.sigma.no"]
 
 const _sizes =  {
 	"tiny": {
-		"title": "Tiny (.2 core, 128M)"
+		"title": "Tiny"
 	},
 	"small": {
-		"title": "Small (.5 core, 128M)"
+		"title": "Small"
 	},
 	"medium": {
-		"title": "Medium (2x .5 core, 128M)"
+		"title": "Medium"
 	},
 	"large": {
-		"title": "Large (3x .5 core, 256M)"
+		"title": "Large"
 	},
 	"xlarge": {
-		"title": "X-Large (3x 1 core, 256M)"
+		"title": "X-Large"
 	}
 }
 
@@ -66,7 +64,7 @@ var _data = {
 	"infrastructure": "gke",
 	"domain": "apps.uninett-labs.no",
 	"size": "small"
-};
+}
 
 
 function getStateFromProps(props) {
@@ -125,23 +123,27 @@ class DeploymentConfiguration extends Component {
   }
 
   componentDidMount() {
-    // this._scrollToBottom();
-    // DeploymentOptionsStore.addChangeListener(this._onChange)
-    AppLibraryStore.addChangeListener(this._onChange)
+    // AppLibraryStore.addChangeListener(this._onChange)
+		// UserContextStore.addChangeListener(this._onChange)
   }
 
   componentWillUnmount() {
-    // DeploymentOptionsStore.removeChangeListener(this._onChange)
-    AppLibraryStore.removeChangeListener(this._onChange)
+    // AppLibraryStore.removeChangeListener(this._onChange)
+		// UserContextStore.removeChangeListener(this._onChange)
   }
 
   _onChange() {
-    // console.log("- changed.")
+		this.setState(getStateFromStores());
   }
 
 	_onChangeInfra(event, value) {
 		event.stopPropagation()
 		this.state.infrastructure = event.target.value
+    if (this.state.infrastructure === 'gke') {
+      this.state.domain = 'apps.uninett-labs.no'
+    } else if (this.state.infrastructure === 'sigma') {
+      this.state.domain = 'daas.sigma.no'
+    }
 		this.setState(this.state)
     // console.log("Change infra", JSON.stringify(this.state.data, undefined, 2))
 	}
@@ -169,38 +171,6 @@ class DeploymentConfiguration extends Component {
     this.setState(this.state)
   }
 
-	// _actInstallStart() {
-  //
-  //   let usercontext = UserContextStore.getContext()
-  //   console.log("User context is ", usercontext)
-  //   if (!usercontext.authenticated) {
-  //     throw new Error("Cannot deploy application when not authenticated")
-  //   }
-  //
-  //   let app = AppLibraryStore.get(this.props.params.application)
-  //   let deploymentConfig = {
-  //     "application": app.application,
-  //     "meta": {
-  //       "title": this.state.data.title
-  //     },
-  //     "services": {
-  //       "dns": {
-  //         "hostname": this.state.data.hostname,
-  //         "domain": this.state.data.domain
-  //       },
-  //       "dataporten": {
-  //         "token": usercontext.token.access_token
-  //       }
-  //     },
-  //     "infrastructure": this.state.data.infrastructure,
-  //     "size": this.state.data.size,
-  //     "admingroup": "fc:org:uninett.no"
-  //   }
-  //   console.error("About to install deployment", deploymentConfig)
-  //   AppEngineCreators.installApp(deploymentConfig)
-  //
-	// }
-
 	_actCancel() {
     AppEngineCreators.installCancel()
 	}
@@ -211,18 +181,23 @@ class DeploymentConfiguration extends Component {
 				key={key}
 				value={key}
 				label={infra.title}
+        disabled={infra.disabled}
 				/>
 		);
 	}
 
 	getSizeOption(key, infra) {
+
+    // console.log("getSIZE", key, infra, this.app.sizes)
+    var disabled = !this.app.sizes[key]
 		return (
 			<RadioButton
 				key={key}
 				value={key}
 				label={infra.title}
+        disabled={disabled}
 				/>
-		);
+		)
 	}
 
 	getDomainOption(domain) {
@@ -237,15 +212,15 @@ class DeploymentConfiguration extends Component {
     // console.error("We are rendering Install component", this.props.app )
 
     var deployment = this.props.deploymentConfiguration
-		var app = AppLibraryStore.get(deployment.application)
+		this.app = AppLibraryStore.get(deployment.application)
 
-    if (!app) {
+    if (!this.app) {
       return (
         <div>Loading...</div>
       )
     }
 
-		var appnameSuggestion = 'Andreas sin ' + app.title
+		var appnameSuggestion = 'Andreas sin ' + this.app.title
 		// console.log("App it is", app, this.state)
 
 		var infraOptions = []
@@ -289,7 +264,7 @@ class DeploymentConfiguration extends Component {
                 value={this.state.hostname}
                 onChange={this._onChangeHostname}
 							/>
-							<SelectField value={this.state.domain} onChange={this._onChangeDomain}>
+							<SelectField disabled={true} value={this.state.domain} onChange={this._onChangeDomain}>
 			          {domainOptions}
 			        </SelectField>
 						</div>
@@ -322,11 +297,12 @@ class DeploymentConfiguration extends Component {
 							<h2>Authentication and access control</h2>
 							<p></p>
 						</div>
-
+						{ /*
 						<div className="section well">
 							<h3>Pricing</h3>
 							<p>199 kr / mnd</p>
 						</div>
+					 		*/ }
 
 					</form>
 				</div>

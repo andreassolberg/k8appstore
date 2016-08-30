@@ -17,7 +17,6 @@ class DeploymentItem extends Component {
 
   _actDelete(event, value) {
     API.deploymentDelete(this.props.deployment.id, this.props.token)
-
   }
 
   _actConfigure(event, value) {

@@ -126,11 +126,8 @@ class Install extends Component {
 
     API.install(deploymentConfig)
       .then((deployment) => {
-
-        console.log("YAY1", deployment)
         const path = "/deployments/" + deployment.id
         this.context.router.push(path)
-        console.log("YAY2")
       })
       .catch((err) => {
         console.error("Error deploying app", err)
@@ -149,16 +146,21 @@ class Install extends Component {
 				key={key}
 				value={key}
 				label={infra.title}
+        disabled={infra.disabled}
 				/>
 		);
 	}
 
 	getSizeOption(key, infra) {
+
+    // console.log("getSIZE", key, infra, this.app.sizes)
+    var disabled = !this.app.sizes[key]
 		return (
 			<RadioButton
 				key={key}
 				value={key}
 				label={infra.title}
+        disabled={disabled}
 				/>
 		);
 	}
@@ -172,15 +174,15 @@ class Install extends Component {
 
     // console.error("We are rendering Install component", this.props.app )
 
-		var app = AppLibraryStore.get(this.props.params.application)
+		this.app = AppLibraryStore.get(this.props.params.application)
 
-    if (!app) {
+    if (!this.app) {
       return (
         <div>Loading...</div>
       )
     }
 
-		var appnameSuggestion = 'Min ' + app.title
+		var appnameSuggestion = 'Min ' + this.app.title
 		// console.log("App it is", app, this.state)
 
 		var infraOptions = []
@@ -207,7 +209,7 @@ class Install extends Component {
 					<form className="">
 
 						<div className="section">
-              <h1>Installing new deployment of {app.title}</h1>
+              <h1>Installing new deployment of {this.app.title}</h1>
 
 
 							<TextField
