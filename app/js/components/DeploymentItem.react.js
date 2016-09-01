@@ -47,7 +47,7 @@ class DeploymentItem extends Component {
         </CardMedia>
       );
     }
-
+    console.log("About to show deployment", deployment)
     var title = deployment.meta.title + ' (' + deployment.infrastructure + ')'
 
     if (app === null) {

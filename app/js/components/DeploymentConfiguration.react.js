@@ -39,7 +39,7 @@ var _infraOptions = {
 	}
 }
 
-const _domains = ["apps.uninett-labs.no", "daas.sigma.no"]
+const _domains = ["apps.uninett-labs.no", "daas.labs.uninett.no"]
 
 const _sizes =  {
 	"tiny": {
@@ -107,16 +107,34 @@ class DeploymentConfiguration extends Component {
 
   getUpdate() {
 
-    var config = {};
+		// console.log(" --- get update ---")
+		// console.log(this.state)
+		// console.log(this.props)
+
+    var config = {
+		}
 		config.id = this.props.deploymentConfiguration.id
     config.application = this.props.deploymentConfiguration.application
-    if (this.state.title !== this.props.deploymentConfiguration.meta.title) config.title = this.state.title
+    if (this.state.title !== this.props.deploymentConfiguration.meta.title) {
+			if (!config.meta) config.meta = {}
+			config.meta.title = this.state.title
+		}
 
     if (this.state.size !== this.props.deploymentConfiguration.size) config.size = this.state.size
     if (this.state.infrastructure !== this.props.deploymentConfiguration.infrastructure) config.infrastructure = this.state.infrastructure
 
-    if (this.state.hostname !== this.props.deploymentConfiguration.services.dns.hostname) config.services.dns.hostname = this.state.hostname
-    if (this.state.domain !== this.props.deploymentConfiguration.services.dns.domain) config.services.dns.domain = this.state.domain
+    if (this.state.hostname !== this.props.deploymentConfiguration.services.dns.hostname) {
+			if (!config.services) config.services = {}
+			if (!config.services.dns) config.services.dns = {}
+			config.services.dns.hostname = this.state.hostname
+			config.services.dns.domain = this.state.domain
+		}
+    if (this.state.domain !== this.props.deploymentConfiguration.services.dns.domain) {
+			if (!config.services) config.services = {}
+			if (!config.services.dns) config.services.dns = {}
+			config.services.dns.hostname = this.state.hostname
+			config.services.dns.domain = this.state.domain
+		}
 
     return config
 
@@ -142,7 +160,7 @@ class DeploymentConfiguration extends Component {
     if (this.state.infrastructure === 'gke') {
       this.state.domain = 'apps.uninett-labs.no'
     } else if (this.state.infrastructure === 'sigma') {
-      this.state.domain = 'daas.sigma.no'
+      this.state.domain = 'daas.labs.uninett.no'
     }
 		this.setState(this.state)
     // console.log("Change infra", JSON.stringify(this.state.data, undefined, 2))
@@ -209,7 +227,7 @@ class DeploymentConfiguration extends Component {
 
 	render() {
 
-    // console.error("We are rendering Install component", this.props.app )
+    console.error("We are rendering configuration widget", this.props.deploymentConfiguration )
 
     var deployment = this.props.deploymentConfiguration
 		this.app = AppLibraryStore.get(deployment.application)

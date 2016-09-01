@@ -75,9 +75,7 @@ class DeploymentEditor extends Component {
 	}
 
 	_actSaveChanges() {
-    // console.error("---")
     let usercontext = UserContextStore.getContext()
-    // console.log("User context is ", usercontext)
     if (!usercontext.authenticated) {
       throw new Error("Cannot deploy application when not authenticated")
     }
