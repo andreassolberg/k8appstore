@@ -7,3 +7,5 @@ etc-kubectl/*secret*
 etc-kubectl/config.yaml
 app/etc/version.json
 etc-kubectl/appstore-deployment-update.json
+ENV
+var
