@@ -29,16 +29,19 @@ window.React = React; // export for http://fb.me/react-devtools
 API.init();
 injectTapEventPlugin();
 
+console.error("yay1")
 
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
+//     history={appHistory}
 
 // history={useRouterHistory(createHashHistory)({queryKey: false})}
 // <IndexRoute component={AppDirectory} />
 render(
 	<Router
-    history={appHistory}
+
 		onUpdate={() => window.scrollTo(0, 0)}
   	>
+
 		<Route path="/" component={MainPageLayout}>
       <IndexRedirect to="/applications" />
 			<Route path="applications">

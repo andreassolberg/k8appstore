@@ -5,7 +5,7 @@ var
 
   requestraw = require('browser-request')
 
-var baseURL = 'http://localhost:8080'
+var baseURL = 'https://k8appengine.dataporten-api.no'
 
 var token = null;
 
@@ -56,8 +56,8 @@ var API = {
 
   init() {
 
-    API.getLibrary()
     API.authenticate()
+      .then(API.getLibrary())
       .then(API.getDeployments())
 
   },
@@ -68,10 +68,16 @@ var API = {
       "url": baseURL + '/applications',
       "json": true
     }
-    request(opts)
+    arequest(opts)
       .then((data) => {
         AppLibraryCreators.receiveAll(data);
+        console.log("DATA", data)
+
       })
+      .catch((err) => {
+        console.error("ERROR", err)
+      })
+
 
   },
 
@@ -88,6 +94,9 @@ var API = {
         // console.log("AppEngineCreators", AppEngineCreators)
         // console.log("AppLibraryCreators", AppLibraryCreators)
         AppEngineCreators.receiveDeploymentsAll(data);
+      })
+      .catch((err) => {
+        console.error("ERROR", err)
       })
   },
 

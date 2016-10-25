@@ -53,7 +53,7 @@ UserContextStore.dispatchToken = Dispatcher.register(function(action) {
       _auth.groups = action.groups
       _auth.token = action.token
 
-      // console.log("AUTHENTICATION_SUCCESS", action)
+      console.log("AUTHENTICATION_SUCCESS", action)
       UserContextStore.emitChange();
       break;
 

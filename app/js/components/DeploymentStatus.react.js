@@ -141,7 +141,9 @@ class DeploymentConfiguration extends Component {
 
 
 	render() {
-		console.log("STAtUS", this.state)
+		// console.log("STAtUS", this.state)
+
+		var url = this.props.deploymentConfiguration.getURL()
 		var ds = null
 		let styleX = {
 			height: 100,
@@ -231,8 +233,11 @@ class DeploymentConfiguration extends Component {
 					<h1>{this.props.deploymentConfiguration.meta.title}</h1>
 					<h3>{this.props.deploymentConfiguration.application}</h3>
 
+					<p><a target="_blank" href={url}>{url}</a></p>
+
 					{ds}
 					{ps}
+
 				</div>
 			</div>
 		);
