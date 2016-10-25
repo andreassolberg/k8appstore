@@ -29,7 +29,6 @@ window.React = React; // export for http://fb.me/react-devtools
 API.init();
 injectTapEventPlugin();
 
-console.error("yay1")
 
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 //     history={appHistory}

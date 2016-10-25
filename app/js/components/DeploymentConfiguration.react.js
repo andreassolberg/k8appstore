@@ -227,7 +227,7 @@ class DeploymentConfiguration extends Component {
 
 	render() {
 
-    console.error("We are rendering configuration widget", this.props.deploymentConfiguration )
+    // console.error("We are rendering configuration widget", this.props.deploymentConfiguration )
 
     var deployment = this.props.deploymentConfiguration
 		this.app = AppLibraryStore.get(deployment.application)

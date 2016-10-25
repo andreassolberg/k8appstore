@@ -23,8 +23,6 @@ import DeploymentOptionsStore from '../stores/DeploymentOptionsStore'
 import UserContextStore from '../stores/UserContextStore'
 
 
-		console.error("YUAY!2")
-
 function getStateFromStores() {
 	var navCurrent = NavigationStore.getCurrent()
 	var app = DeploymentOptionsStore.getApp()
@@ -70,8 +68,6 @@ class MainPageLayout extends Component {
 	render() {
 
 
-		console.error("YUAY!2x")
-		
 		// var mainElement = null;
 		// // console.error("render", this.state);
     //
