@@ -111,6 +111,12 @@ class MainPageLayout extends Component {
 
 		}
 
+		// <a className="grey-text text-lighten-4 right" href="https://github.com/Dogfalo/materialize/blob/master/LICENSE">MIT License</a>
+
+var ss = {
+	"color": "#ccc",
+	"textAlign": "center"
+}
 		return (
   		<MuiThemeProvider>
   			<div>
@@ -126,9 +132,9 @@ class MainPageLayout extends Component {
 
   					<footer className="page-footer">
   						<div className="footer-copyright">
-  							<div className="container" >
+  							<div className="container" style={ss} >
   								UNINETT © 2016
-  								<a className="grey-text text-lighten-4 right" href="https://github.com/Dogfalo/materialize/blob/master/LICENSE">MIT License</a>
+
   							</div>
   						</div>
   					</footer>

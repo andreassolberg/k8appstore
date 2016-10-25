@@ -43,6 +43,11 @@ class AppDirectoryItem extends Component {
       );
     }
 
+/*
+<FlatButton label="Demo" />
+<Link to="/deployments">Blah</Link>
+<p>Price: {app.price} kr / mnd</p>
+*/
     return (
       <Card>
         <CardHeader
@@ -54,14 +59,10 @@ class AppDirectoryItem extends Component {
         <CardText expandable={true}>
           {imageElement}
           <p>{app.descr}</p>
-          <p>Price: {app.price} kr / mnd</p>
         </CardText>
         <CardActions expandable={true}>
           <RaisedButton label="Install" primary={true} style={style} onMouseUp={this._actInstall} />
-          <FlatButton label="Demo" />
-          <Link to="/deployments">Blah</Link>
         </CardActions>
-
       </Card>
     );
   }

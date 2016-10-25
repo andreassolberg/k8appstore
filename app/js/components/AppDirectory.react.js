@@ -49,6 +49,18 @@ class AppListing extends Component {
     // console.log("Render, state", this.state);
     var appItems = this.state.applications.map(getAppItem);
 
+/*
+<div className="">
+  <div className="toc-wrapper">
+    <div className="toc-wrapperInner">
+      <ul className="section table-of-contents">
+        <li><a href="#appstore">Applications</a></li>
+        <li><a href="#uhskyinfo">UH-sky</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+*/
     return (
       <div>
 
@@ -65,16 +77,7 @@ class AppListing extends Component {
 
             </div>
 
-            <div className="">
-              <div className="toc-wrapper">
-                <div className="toc-wrapperInner">
-                  <ul className="section table-of-contents">
-                    <li><a href="#appstore">Applications</a></li>
-                    <li><a href="#uhskyinfo">UH-sky</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+
 
         </div>
       </div>
