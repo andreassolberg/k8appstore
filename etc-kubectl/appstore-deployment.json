@@ -1,0 +1,38 @@
+{
+	"apiVersion": "extensions/v1beta1",
+	"kind": "Deployment",
+	"metadata": {
+		"name": "k8appstore"
+	},
+	"spec": {
+		"replicas": 1,
+		"template": {
+			"metadata": {
+				"labels": {
+					"app": "k8appstore",
+					"appid": "k8appstore"
+				}
+			},
+			"spec": {
+				"containers": [{
+					"name": "k8appstore",
+					"image": "uninettno/k8appstore:1.0.7",
+					"resources": {
+						"requests": {
+							"cpu": "10m"
+						},
+						"limits": {
+							"cpu": "200m"
+						}
+					},
+					"env": [],
+					"imagePullPolicy": "Always",
+					"ports": [{
+						"containerPort": 8080
+					}]
+				}],
+				"restartPolicy": "Always"
+			}
+		}
+	}
+}

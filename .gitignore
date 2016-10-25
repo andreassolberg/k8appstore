@@ -3,3 +3,5 @@ bower_components
 app/node_modules
 app/js/bundle.js
 app/dist
+etc-kubectl/*secret*
+etc-kubectl/config.yaml

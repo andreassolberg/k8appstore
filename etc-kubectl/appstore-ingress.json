@@ -1,0 +1,37 @@
+{
+  "apiVersion": "extensions/v1beta1",
+  "kind": "Ingress",
+  "metadata": {
+    "name": "k8appstore",
+    "annotations": {
+      "kubernetes.io/tls-acme": "false"
+    }
+  },
+  "spec": {
+    "tls": [
+      {
+        "hosts": ["store.apps.uninett-labs.no"],
+        "secretName": "appengine-tls"
+      }
+    ],
+    "backend": {
+      "serviceName": "k8appstore",
+      "servicePort": 80
+    },
+    "rules": [
+      {
+        "host": "store.apps.uninett-labs.no",
+        "http": {
+          "paths": [
+            {
+              "backend": {
+                  "serviceName": "k8appstore",
+                  "servicePort": 80
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
