@@ -53,14 +53,8 @@ app.use('/', express.static('app', {
 
 app.get('/version', function(req, res) {
 
-	var bowerlist = JSON.parse(fs.readFileSync('app/etc/bower-list.json', 'utf8'));
-	var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-
 	var data = {
-		"app": {
-			"pkg": pkg
-		},
-		"bower": bowerlist
+		"container": JSON.parse(fs.readFileSync('app/etc/version.json', 'utf8'))
 	};
 
 	res.setHeader('Content-Type', 'application/json; charset=utf-8');
