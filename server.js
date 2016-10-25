@@ -23,10 +23,12 @@ app.use(function(req, res, next) {
 });
 
 
+app.use('/css/', express.static('css'));
+
 if (env === 'development') {
 	console.log("Running app in development mode");
 
-	app.use('/css/', express.static('css'));
+	// app.use('/css/', express.static('css'));
 	app.use('/templates/', express.static('templates'));
 	app.use('/dictionaries/', express.static('dictionaries'));
 
@@ -52,12 +54,10 @@ app.use('/', express.static('app', {
 app.get('/version', function(req, res) {
 
 	var bowerlist = JSON.parse(fs.readFileSync('app/etc/bower-list.json', 'utf8'));
-	var gittag = fs.readFileSync('app/etc/version-git.txt', 'utf8').trim();
 	var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 	var data = {
 		"app": {
-			"git": gittag,
 			"pkg": pkg
 		},
 		"bower": bowerlist
@@ -75,7 +75,7 @@ app.get('/api/apps', function(req, res) {
 });
 
 
-var port = process.env.VCAP_APP_PORT || 3000;
+var port = process.env.VCAP_APP_PORT || 8080;
 var server = app.listen(port, function() {
 	var host = server.address().address;
 	var port = server.address().port;
